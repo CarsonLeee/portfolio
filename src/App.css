@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap");
 
 :root {
-  --paper: #eceee9;
-  --surface: #e2e5df;
-  --ink: #1f2320;
-  --muted: #676d67;
-  --line: #cfd3cc;
+  --paper: #eceef2;
+  --surface: #e2e5ec;
+  --ink: #1e2230;
+  --muted: #656b7a;
+  --line: #ced3dd;
   --accent: #5854c6;
   --accent-ink: #f3f5f1;
   --press: cubic-bezier(0.22, 1, 0.36, 1);
@@ -17,13 +17,13 @@
 }
 
 :root[data-theme="dark"] {
-  --paper: #191b19;
-  --surface: #212421;
-  --ink: #e1e4de;
-  --muted: #979c95;
-  --line: #313530;
+  --paper: #17191d;
+  --surface: #1f2228;
+  --ink: #e4e6ea;
+  --muted: #969aa4;
+  --line: #2e323a;
   --accent: #9c99f0;
-  --accent-ink: #151715;
+  --accent-ink: #16181c;
 }
 
 *,
@@ -862,5 +862,47 @@ img {
 
   .nav {
     gap: 12px;
+  }
+
+  .hero-title {
+    font-size: 34px;
+  }
+}
+
+/* Small phones (320px): the header runs out of room, so tighten the
+   gutter and type. Resume stays reachable via the hero button. */
+@media (max-width: 380px) {
+  :root {
+    --page-pad: 16px;
+  }
+
+  .header-inner {
+    gap: 8px;
+  }
+
+  .wordmark {
+    font-size: 14px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .segment {
+    padding: 7px 10px;
+  }
+
+  .facts-panel {
+    padding: 18px;
   }
 }
