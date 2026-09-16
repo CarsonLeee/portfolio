@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Carson's Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio site — v2 of [carsonlee.ca](https://v1.carsonlee.ca/). A single-page
+React app covering an intro, work history, project showcase with demo clips, and skills,
+with a TLDR mode and a persisted light/dark theme.
+
+Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
