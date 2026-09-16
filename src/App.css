@@ -1,1163 +1,712 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap");
 
-.App {
-  font-family: 'Source Sans Pro';
+:root {
+  --paper: #eceee9;
+  --surface: #e2e5df;
+  --ink: #1f2320;
+  --muted: #676d67;
+  --line: #cfd3cc;
+  --accent: #3e5c52;
+  --accent-ink: #f3f5f1;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --page-max: 1080px;
+  --page-pad: 24px;
+}
+
+:root[data-theme="dark"] {
+  --paper: #191b19;
+  --surface: #212421;
+  --ink: #e1e4de;
+  --muted: #979c95;
+  --line: #313530;
+  --accent: #97b5a9;
+  --accent-ink: #151715;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--paper);
+}
+
+body {
   margin: 0;
-  padding: 0 20px;
+}
+
+.app {
   min-height: 100vh;
-  transition: background-color 0.7s, color 0.7s;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Schibsted Grotesk", system-ui, -apple-system, Segoe UI, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-.App.dark-mode {
-  background-color: #121521;
-  color: #FFFFFF;
-}
-
-/* Styles for light mode */
-.App.light-mode {
-  background-color: #FFFFFF;
-  color: #000000;
-}
-
-/* Header styles */
-.App-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 20%;
-  box-sizing: border-box;
-  position: fixed; /* Makes the header fixed at the top */
-  top: 0; /* Align the header at the top */
-  left: 0; /* Align the header to the left */
-  right: 0; /* Align the header to the right */
-  z-index: 1000; /* Ensures the header is above other content */
-  backdrop-filter: blur(10px); /* Apply the blur effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
-  transition: background-color 0.3s; /* Smooth transition for background color */
-}
-
-/* For the name in the header */
-.name {
-  /* Existing styles */
-  cursor: pointer; /* Add this line */
-  transition: color 0.3s ease; /* Smooth transition for color change */
-}
-
-.name:hover {
-  color: #6460cc; /* Change to a different color on hover */
-}
-
-/* For the footer name */
-.App-footer .footer-name {
-  /* Existing styles */
-  cursor: pointer; /* Add this line */
-  transition: color 0.3s ease; /* Smooth transition for color change */
-}
-
-.App-footer .footer-name:hover {
-  color: #6460cc; /* Change to a different color on hover */
-}
-
-
-/* Padding for the content so it doesn't get hidden behind the fixed header */
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 50px;
-  padding: 50px 400px;
-  padding-top: 100px; /* Adjust this value based on the height of your header */
-  box-sizing: border-box;
-  position: relative;
-  top: 5vh;
-}
-
-/*Line under header*/
-.App-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0; /* Position at the bottom of the header */
-  height: 1px; /* Height of the line */
-  background-color: #999999; /* Color of the line */
-  left: 20%; /* Start the line aligned with "Carson" text */
-  right: 20%; /* End the line aligned with the mode toggle */
-}
-
-.name {
-  font-size: calc(16px + 1.2vw); /* Adjust base size and scaling as needed */
-  font-weight: bold;
-  flex-shrink: 0; /* Prevents the name from shrinking on smaller screens */
-}
-
-.navigation {
-  display: flex;
-  align-items: center; /* Align items vertically in the center */
-  gap: 30px;
-  font-size: 16px;
+h1,
+h2,
+h3 {
+  margin: 0;
   font-weight: 600;
-  color: #000000;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-.navigation a {
-  text-decoration: none;
+p {
+  margin: 0;
+}
+
+a {
   color: inherit;
 }
 
-p span{
-  color: #6460cc;
+img {
+  display: block;
+  max-width: 100%;
 }
 
-.dark-mode p span{
-  color: #7a76e8;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-a:hover {
-  color: #6460cc; /* Color on hover */
+/* ---------- Header ---------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
 }
 
-.dark-mode .navigation {
-  color: #D1D1D1;
-  transition: color 0.5s ease; /* Adjust the time as needed */
-}
-
-
-.mode-toggle-box {
-  display: flex; /* Ensures flex alignment */
-  align-items: center; /* Aligns children (mode-toggle) vertically center */
-  justify-content: center; /* Centers the mode-toggle horizontally */
-  width: 50%; /* Fixed width */
-  height: 50%; /* Fixed height */
-}
-
-.mode-toggle {
-  cursor: pointer;
-  transition: color 0.7s;
+.header-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 20px; /* Fixed width for the toggle container */
-  height: 50px; /* Fixed height for the toggle container */
-}
-
-/* Styles for light mode */
-.light-mode {
-  background-color: #FFFFFF;
-  color: #000000;
-}
-
-/* Transition for navigation links and buttons */
-.navigation a, .mode-toggle {
-  transition: color 0.7s;
-}
-
-/*Intro section*/
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* This may spread items to both ends; use 'flex-start' or 'center' if you prefer them to be closer together */
-  gap: 3%; /* This will create a gap between the intro text and the profile picture */
-  padding: 10% 20%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.intro h1 {
-  font-size: 40px;
-  font-weight: bold;
-  background: -webkit-linear-gradient(top left,#DC3BF6,#20FFFF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: color 2s;
-  animation: 1s ease-out 0s 1 slideInFromLeft;
-}
-
-.profile-picture {
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #FC62FF, #3BF686, #FC62FF, #3BF686);
-  background-size: 200% 200%; /* Makes the gradient large enough to enable the shifting effect */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px; /* Adjust the padding to create the thickness of your border */
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  animation: gradientAnimation 3s ease infinite, slideUpFromBottom 1s ease-out 0.5s 1;
-  animation-fill-mode: backwards;
-  margin-top: 40px;
-}
-
-/* Additional styles for the image inside the circle */
-.profile-picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.profile-picture-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-
-.content, .tldr-container {
-  max-width: calc(100% - 40px); /* Assuming the header has 20px padding on each side */
-  margin: 0 auto; /* This will center the content */
-}
-
-/* Now, adjust the TLDR section to ensure it doesn't overflow */
-.tldr-content {
-  width: 100%; /* Full width of the container */
-  padding: 20px;
-  /* Other styles remain the same */
-}
-
-/*TLDR section*/
-.tldr-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* This may spread items to both ends; use 'flex-start' or 'center' if you prefer them to be closer together */
-  padding: 2% 20%;
-  box-sizing: border-box;
-  position: relative;
-  top: 100px;
-}
-
-.tldr-content {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%; /* Full width minus the padding on the header */
-  padding: 2%;
-  border-radius: 15px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  gap: 16px;
+  height: 64px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
 }
 
-/* TLDR section toggle button placeholder default background color (when off) */
-.tldr-content .toggle-button-placeholder {
-  background-color: #8a8a8a; /* Default state */
-}
-
-.tldr-content .toggle-button-placeholder.toggled-background {
-  background-color: rgb(0, 163, 0); /* Toggled state */
-}
-
-.App.dark-mode .tldr-content  {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: calc(150% - 40%); /* Full width minus the padding on the header */
-  padding: 20px;
-  border-radius: 15px; /* Rounded corners */
-  background-color: #1d2336;
-  color: #f2f2f3;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-}
-
-.App.dark-mode .tldr-title h2 {
-  font-size: 24px; /* Standard font size for title */
-  font-weight: bold;
-
-}
-
-.tldr-title h2 {
-  font-size: 24px; /* Standard font size for title */
-  font-weight: bold;
-}
-
-.tldr-title p {
-  font-size: 16px; /* Standard font size for subtitle */
-}
-
-.tldr-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 60%;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tldr-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.about-me-title {
-  font-weight: bold;
-  align-items: left;
-  margin-bottom: 10px;
-}
-
-.tldr-box-on {
-  opacity: 0;
-  flex-direction: column;
-  align-items: center;
-  max-width: 60%;
-  margin-top: 8%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tldr-box.tldr-box-on {
-  opacity: 1; /* Set the opacity to 1 to ensure it's visible */
-  transform: translateY(0); /* Ensure it starts at its normal position */
-}
-
-/* Apply the animation only to specific child elements with different delays */
-.tldr-box.tldr-box-on .about-me-title {
-  opacity: 0; /* Initially hidden */
-  animation: slideUp 0.6s ease forwards;
-}
-
-.tldr-box.tldr-box-on .tldr-bitmoji {
-  opacity: 0; /* Initially hidden */
-  animation: slideUp 0.6s ease forwards;
-  animation-delay: 0.3s;
-}
-
-.tldr-box.tldr-box-on .tldr-summary-left h3 {
-  opacity: 0; /* Initially hidden */
-  animation: slideUp 0.6s ease forwards;
-  animation-delay: 0.6s;
-}
-
-.tldr-box.tldr-box-on .tldr-summary-left p {
-  opacity: 0; /* Initially hidden */
-  animation: slideUp 0.6s ease forwards;
-  animation-delay: 0.9s;
-}
-
-.tldr-box.tldr-box-on .tldr-summary-right .fun-facts {
-  opacity: 0; /* Initially hidden */
-  animation: slideUp 0.6s ease forwards;
-  animation-delay: 1.2s;
-}
-
-.connect-button {
-  background-color: #00a300; /* Green background */
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
+.wordmark {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
   font-weight: 600;
-  transition: background-color 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.5s; /* Adjust the delay as needed */
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-.connect-button:hover {
-  background-color: #017401; /* Darker green */
-}
-
-.tldr-box-off h2{
-  border-color: #1d2336;
+.nav {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  max-width: 60%;
-  margin-top: 8%;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 24px;
 }
 
-.tldr-box-on .tldr-summaries-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 2%;
-  gap: 10px; /* Adjust this value as needed to increase or decrease the space between the cards */
+.nav-link {
+  color: var(--muted);
+  font-size: 15px;
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
-.tldr-summaries-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 3%;
-  gap: 30px; /* Adjust this value as needed to increase or decrease the space between the cards */
+.nav-link:hover {
+  color: var(--ink);
 }
 
-.tldr-summary-right{
-  display: flex;
-  flex-direction: column;
+.theme-toggle {
+  display: inline-flex;
   align-items: center;
-  max-width: 60%;
-  margin-top: 10%;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ---------- Layout ---------- */
+
+.main {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 56px;
+  padding: 96px 0 80px;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.hero-bitmoji {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.hero-title {
+  max-width: 15ch;
+  margin-top: 20px;
+  font-size: clamp(38px, 5.4vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.hero-subtext {
+  max-width: 46ch;
+  margin-top: 20px;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.hero-photo img {
+  width: 280px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  filter: saturate(0.85);
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.button-solid {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.button-solid:hover {
+  opacity: 0.88;
+}
+
+.button-outline {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.button-outline:hover {
+  border-color: var(--ink);
+}
+
+/* ---------- View switch ---------- */
+
+.view-switch {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.segment {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.segment:hover {
+  color: var(--ink);
+}
+
+.segment[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.view-hint {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 32px;
+  padding: 72px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-label {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- About ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.about-bitmoji {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.about-title {
+  margin-top: 18px;
+  font-size: 19px;
+}
+
+.about-body {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------- Work ---------- */
+
+.work-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.work-row:first-child {
+  padding-top: 0;
+}
+
+.work-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.work-dates {
+  color: var(--muted);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-role {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.work-company {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.work-company:hover {
+  text-decoration: underline;
+}
+
+.work-description {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------- Projects ---------- */
+
+.project-list {
+  display: grid;
+  gap: 56px;
+}
+
+.project {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.project-frame {
+  display: block;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.project-frame img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.project-kind {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.project-name {
+  margin-top: 6px;
+  font-size: 24px;
+}
+
+.project-name a {
+  text-decoration: none;
+}
+
+.project-name a:hover {
+  text-decoration: underline;
+}
+
+.project-award {
+  margin-top: 6px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.project-description {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Skills ---------- */
+
+.skills-list {
+  margin: 0;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.skill-row:first-child {
+  padding-top: 0;
+}
+
+.skill-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.skill-group {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.skill-items {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------- TLDR ---------- */
+
+.tldr-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  align-items: start;
 }
 
 .tldr-bitmoji {
-  width: 10%;
-  height: 10%;
-  border-radius: 50%;
-  margin-bottom: 5%;
-  background-color: #ccccff;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.tldr-paragraph {
+  margin-top: 16px;
+  color: var(--muted);
+}
+
+.tldr-main .button {
+  margin-top: 28px;
+}
+
+.facts-panel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.facts-title {
+  font-size: 17px;
+}
+
+.facts-list {
+  margin: 14px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.facts-list li + li {
+  margin-top: 8px;
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  padding: 96px 0;
+}
+
+.contact-title {
+  font-size: clamp(30px, 4vw, 44px);
+  letter-spacing: -0.03em;
+}
+
+.contact-line {
+  margin-top: 16px;
+  color: var(--muted);
+}
+
+.contact-line a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.contact-line a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2px;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 28px var(--page-pad);
+  border-top: 1px solid var(--line);
 }
 
-.App.dark-mode .tldr-bitmoji {
-  background-color: #3d3d4e;
-}
-
-.tldr-bitmoji img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.tldr-summary-left {
-  flex: 1;
-  margin: 0 5%;
-  box-sizing: border-box;
-  border-radius: 10px;
-}
-
-.tldr-summary-left p {
-  font-weight: 400;
-}
-
-.tldr-summary-left h3 {
-  font-weight: 600;
-}
-
-.tldr-summary-right {
-  flex: 1;
-  margin: 0 5%;
-  border-radius: 10px;
-  box-sizing: border-box; /* Include padding in the width and height */
-}
-
-.fun-facts li {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  list-style: none;
-  padding-left: 0;
-}
-
-.fun-facts {
-  background-color: #EDEFF8;
-  border-radius: 10px;
-  padding: 3%;
-}
-
-.App.dark-mode .fun-facts {
-  background-color: #1d2336;
-  border-radius: 10px;
-}
-/*fix*/
-.toggle-button-placeholder {
-  width: 60px;
-  height: 30px;
-  background-color: #DDDDDD;
-  border-radius: 15px;
-  position: relative;
+.back-to-top {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
-.toggle-button {
-  width: 28px;
-  height: 28px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  transition: transform 0.3s ease;
+.back-to-top:hover {
+  color: var(--ink);
 }
 
-.toggled {
-  transform: translateX(30px);
-}
-
-/* Initial hidden state for animated elements in tldr-box-off */
-.tldr-box.tldr-box-off .about-me-title,
-.tldr-box.tldr-box-off .tldr-bitmoji,
-.tldr-box.tldr-box-off .flip-card {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-/* Define the slide-up animation */
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Apply the animation to the about-me-title */
-.tldr-box.tldr-box-off.animate-on-view .about-me-title {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.3s;
-}
-
-/* Apply the animation to the tldr-bitmoji */
-.tldr-box.tldr-box-off.animate-on-view .tldr-bitmoji {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.6s;
-}
-
-/* Apply the animation to each flip-card with increasing delay */
-.tldr-box.tldr-box-off.animate-on-view .flip-card:nth-child(1) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.9s;
-}
-
-.tldr-box.tldr-box-off.animate-on-view .flip-card:nth-child(2) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.2s;
-}
-
-.tldr-box.tldr-box-off.animate-on-view .flip-card:nth-child(3) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.5s;
-}
-
-.flip-card {
-  background-color: transparent;
-  width: 300px; /* Card size */
-  height: 300px; /* Card size */
-  margin-top: 50px; /* Space for the bitmoji */
-  perspective: 1000px; /* 3D effect for flip */
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  border-radius: 30px; /* Rounded corners for the card */
-  z-index: 1; /* Lower than the bitmoji */
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 30px; /* Rounded corners to match the container */
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-}
-
-.App.dark-mode .flip-card-front {
-  background-color: #1d2336;
-  color: #d8dde9;
-}
-
-.flip-card-front {
-  background-color: #EDEFF8;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centers content vertically */
-  align-items: center; /* Centers content horizontally */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-}
- 
-.flip-card-front h3{
-  font-weight: 600;
-  color: #7a76e8;
-}
-
-.flip-card-back p span{
-  color: #7c76ee;
-}
-
-.flip-card-back {
-  background-color: #d8dde9;
-  color: black;
-  transform: rotateY(180deg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centers content vertically */
-  align-items: center; /* Centers content horizontally */
-}
-
-.App.dark-mode .flip-card-back {
-  background-color: #1d2336;
-  color: #d8dde9;
-  transform: rotateY(180deg);
-}
-
-
-.flip-card-front p, .flip-card-back p {
-  margin: 10px;
-  text-align: center;
-}
-
-.card-bitmoji {
-  width: 100px; /* Circle size */
-  height: 100px; /* Circle size */
-  border-radius: 50%; /* This makes the element a circle */
-  position: absolute; /* Absolute position within the card */
-  top: -50px; /* Half outside the top edge of the card */
-  left: 50%; /* Horizontally centered */
-  transform: translateX(-50%); /* Adjust horizontal centering */
-  background-color: #ccccff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.App.dark-mode .card-bitmoji {
-  background-color: #3d3d4e;
-}
-
-.card-bitmoji img {
-  width: 100%; /* Fill the circle */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 50%; /* Ensure the image is also a circle */
-}
-
-/* Initial hidden state for animated elements in work-section */
-.work-section .work-title, 
-.work-section .work-content-1,
-.work-section .work-content-2,
-.work-section .work-content-3 {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.company-logo {
-  width: 20px; /* Adjust size as needed */
-  height: auto;
-  margin-right: 5px;
-  vertical-align: middle; /* Aligns the logo with the middle of the text */
-}
-
-/* Apply the animation to the work-title */
-.work-section.animate-on-view .work-title {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.3s;
-}
-
-/* Apply the animation to each work-content with increasing delay */
-.work-section.animate-on-view .work-content-1 {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.6s;
-}
-
-.work-section.animate-on-view .work-content-2 {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.9s;
-}
-
-.work-section.animate-on-view .work-content-3 {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.2s;
-}
-
-/*Work section*/
-.work-section {
-  max-width: 100%; /* Same as TLDR box */
-  margin: 20px auto; /* Centering the section */
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.work-duration {
-  color: #6460cc;
-}
-
-.job-title {
-  color: #6460cc;
-}
-
-.work-title {
-  font-weight: bold;
-  align-items: left;
-  margin-bottom: 10px;
-}
-
-.work-content-1 h3, .work-content-2 h3, .work-content-3 h3 {
-  font-weight:bold;
-  text-align: left;
-  margin-bottom: 10px;
-  color: #7a76e8;
-}
-
-.work-content-1 h3 a:hover, .work-content-2 h3 a:hover, .work-content-3 h3 a:hover {
-  color: #474588(192, 0, 209);
-  text-decoration:underline;
-  transition: color 0.6s ease;
-}
-
-.work-content-1, .work-content-2, .work-content-3 {
-  padding: 15px;
-  border-radius: 10px;
-  max-width: 100%;
-  width: 100%;
-  background-color: #EDEFF8;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  margin-top: 30px;
-}
-
-.App.dark-mode .work-content-1, .App.dark-mode .work-content-2, .App.dark-mode .work-content-3{
-  background-color: #1d2336;
-}
-
-.work-content-1 p, .work-content-2 p, .work-content-3 p{
-  margin-top: 10px;
-}
-
-.work-duration {
-  float: right; /* Align to the right side */
-  font-style: italic;
-}
-
-/* Project section styles */
-/* Initial hidden state for animated elements in project-section */
-.project-section .project-title, 
-.project-section .project-box-left,
-.project-section .project-box-right {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-/* Apply the animation to the project-title */
-.project-section.animate-on-view .project-title {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.3s;
-}
-
-/* Apply the animation to each project-box-left with increasing delay */
-.project-section.animate-on-view .project-box-left {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.6s;
-}
-
-/* Apply the animation to each project-box-right with increasing delay */
-.project-section.animate-on-view .project-box-right {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.9s;
-}
-
-.project-section {
-  width: 100%;
-  margin: 40px auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.project-title {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.project-content-1, .project-content-2, .project-content-3, .project-content-4, .project-content-5 {
-  display: flex;
-  gap: 20px; /* Adjust as needed for space between boxes */
-  width: 100%;
-  margin-top: 5%;
-}
-
-.project-box-left,
-.project-box-right {
-  border-radius: 10px;
-  padding: 10px;
-  width: 100%;
-}
-
-.project-box-left {
-  width: calc(30% - 10px); /* Adjust width as needed */
-  height: 200px; /* Adjust height as needed for square */
-  background-color: #EDEFF8; /* Example background color */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  overflow: hidden;
-}
-
-.project-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the image covers the box area */
-  border-radius: 6px;
-}
-
-.project-box-right {
-  flex-grow: 1;
-  min-height: 200px; /* Adjust height as needed for rectangle */
-}
-
-.project-box-right h6{
-  color: #9c99f0;
-}
-
-.App.dark-mode .project-box-right h6{
-  color: #9c99f0;
-}
-
-h3 a {
-  color: #7a76e8; /* This makes the link use the same color as the surrounding text */
-  text-decoration: none; /* This removes the underline commonly associated with links */
-  transition: color 0.6s ease;
-}
-
-h3 a:hover {
-  text-decoration:underline;
-  transition: color 0.6s ease;
-  color: #474588;
-}
-
-
-.App.dark-mode .project-box-right h3{
-  color: #7a76e8;
-}
-
-/* Dark mode adjustments */
-.App.dark-mode .project-box-left {
-  background-color: #1d2336; /* Dark mode background color */
-}
-
-/*Skills Section*/
-/* Initial hidden state for animated elements in skills-section */
-.skills-section .skills-title,
-.skills-section .skill-box {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-/* Apply the animation to the skills-title */
-.skills-section.animate-on-view .skills-title {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.3s;
-}
-
-/* Apply the animation to each skill-box with increasing delay */
-.skills-section.animate-on-view .skill-box:nth-child(1) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.6s;
-}
-
-.skills-section.animate-on-view .skill-box:nth-child(2) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 0.9s;
-}
-
-.skills-section.animate-on-view .skill-box:nth-child(3) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.2s;
-}
-
-.skills-section.animate-on-view .skill-box:nth-child(4) {
-  animation: slideUp 0.7s ease forwards;
-  animation-delay: 1.5s;
-}
-
-.skills-section {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.skills-title {
-  font-weight: bold;
-  align-items: left;
-  margin-bottom: 10px;
-}
-
-.skills-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
-  grid-gap: 20px; /* Gap between boxes */
-  margin-bottom: 15%;
-}
-
-.App.dark-mode .skill-box{
-  background-color: #1d2336; /* Example background color */
-  border-radius: 10px;
-  margin-top: 10%;
-  padding: 10%;
-  height: 100%; /* Set a fixed height for each box */
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;
-}
-
-.skill-box {
-  background-color: #EDEFF8; /* Example background color */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  border-radius: 10px;
-  margin-top: 10%;
-  padding: 10%;
-  height: 100%; /* Set a fixed height for each box */
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: center;
-}
-
-.skill-box h3 {
-  margin-bottom: 10px; /* Space between title and description */
-  font-weight: 600;
-  color: #7a76e8; /* Adjust color as needed */
-}
-
-.App.dark-mode .skill-box h3 {
-  margin-bottom: 10px; /* Space between title and description */
-  font-weight: 600;
-  color: #7a76e8; /* Adjust color as needed */
-}
-
-.skill-box p {
-  color: #1d2336; /* Adjust color as needed */
-}
-
-.App.dark-mode .skill-box p {
-  color: #b7b7be; /* Adjust color as needed */
-}
-
-/*Footer related stuff*/
-.App-footer {
-  text-align: center;
-  padding: 20px 0;
-  width: 100%;
-  font-size: 20px; /* Adjust size as needed */
-  font-weight: bold;
-  padding-top: 10vh; /* Add padding to create space for the footer */
-}
-
-.App.light-mode .App-footer {
-  color: #000000;
-}
-
-.footer-built-with {
-  color: #000000; /* Example color - adjust as needed */
-  font-size: 18px; /* Adjust the font size as needed */
-  margin-top: 5px; /* Space between name and text */
-}
-
-/* Additional styling for dark mode if needed */
-.App.dark-mode .footer-built-with {
-  color: #f0f0f1; /* Example color for dark mode - adjust as needed */
-}
+/* ---------- Page-load reveal ---------- */
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .App-header {
-    padding: 5px 5%; /* Reduced padding for smaller screens */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: rise 0.7s ease both;
   }
 
-  .name, .navigation a {
-    font-size: 14px; /* Smaller font size for better readability */
+  .reveal-1 {
+    animation-delay: 0.06s;
   }
 
-  .content, .tldr-container, .work-section, .project-section, .skills-section {
-    padding: 10px; /* Reduced padding for content sections */
+  .reveal-2 {
+    animation-delay: 0.12s;
   }
 
-  .content, .tldr-content, .tldr-box, .work-content-1, .work-content-2, .work-content-3, .project-content-1, .project-content-2, .project-content-3, .project-content-4, .project-content-5, .skill-box {
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center elements */
+  .reveal-3 {
+    animation-delay: 0.18s;
   }
 
-  .profile-picture, .tldr-bitmoji, .company-logo, .project-image {
-    width: 50%; /* Adjust size for better fit */
-    height: auto; /* Maintain aspect ratio */
-    margin-top: 40px;
-  }
-
-  .card-bitmoji {
-    width: 15vw; /* Increase the size a bit on smaller screens */
-    height: 15vw; /* Maintain aspect ratio */
-  }
-
-  .project-box-left {
-    /* Existing styles */
-    width: 100%;
-    overflow: hidden; /* This will clip the image if it overflows the container */
-  }
-  
-  .project-image {
-    width: 100%; /* Ensures the image takes the full width of its container */
-    height: 100%; /* Ensures the image takes the full height of its container */
-    object-fit: cover; /* Ensures the image covers the entire area, may crop the image */
-    display: block; /* Removes any extra space below the image */
-  }
-
-  .skills-container {
-    grid-template-columns: 1fr; /* Single column layout for skills */
-  }
-
-  .App-footer {
-    font-size: 16px; /* Smaller font size for footer */
-  }
-
-  .tldr-summaries-container {
-    flex-direction: column; /* Stack elements vertically */
-    gap: 15px; /* Increase gap between cards */
-  }
-
-  .tldr-summaries-container, .flip-card {
-    flex-direction: column; /* Stack flip cards vertically */
-    width: 100%; /* Full width for better layout */
-  }
-
-  /* Adjust padding and margins as needed for smaller elements */
-  .tldr-summary-left, .tldr-summary-right, .flip-card {
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-
-  .App-header {
-    padding: 5px 2%; /* Even smaller padding */
-  }
-
-  .intro h1 {
-    margin-top: 100px;
-  }
-
-  .name, .navigation a {
-    font-size: 12px; /* Even smaller font size for navigation items */
-  }
-
-  .App-footer {
-    font-size: 14px; /* Smaller font size for footer */
-  }
-
-  /* Further adjustments for content spacing and layout */
-  .content, .tldr-container, .work-section, .project-section, .skills-section {
-    margin-bottom: 100px;
-    text-align: center;
-  }
-
-  .tldr-summaries-container {
-    gap: 10px; /* Slightly smaller gap for very small screens */
-  }
-  
-  .tldr-box.tldr-box-on.visible {
-    margin-top: 200px;
-  }
-
-  .tldr-summaries-container {
-    display: flex; /* Or display: grid; depending on your layout */
-    align-items: center; /* This will now work as expected */
-    justify-content: center; /* Optional, to center items horizontally */
-    text-align: center;
-  }
-
-  .flip-card-back {
-    font-size: 0.9em; /* Slightly smaller font size */
-    padding: 8px; /* Adjust padding */
-  }
-
-  .tldr-bitmoji {
-    width: 40%; /* Further reduce bitmoji size for very small screens */
-  }
-
-  .tldr-summary-left, .tldr-summary-right {
-    padding: 5px; /* Smaller padding for very small screens */
-    margin-bottom: 10px;
-  }
-
-  .work-content-1, .work-content-2, .work-content-3 {
-    display: flex; /* Set display to flex */
-    flex-direction: column; /* Stack children elements vertically */
-    align-items: center; /* Center items vertically in the container */
-    justify-content: center; /* Center items horizontally in the container */
-    text-align: center; /* Center-align the text inside */
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 
-@media (max-width: 480px) {
-  .flip-card-back {
-    font-size: 0.8em; /* Even smaller font size for very small screens */
-    padding: 6px; /* Adjust padding */
-    /* Additional responsive adjustments as needed */
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 56px 0;
+  }
+
+  .hero-photo {
+    order: -1;
+  }
+
+  .hero-photo img {
+    width: 180px;
+  }
+
+  .section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 56px 0;
+  }
+
+  .section-label {
+    position: static;
+  }
+
+  .about-grid,
+  .project,
+  .tldr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid {
+    gap: 32px;
+  }
+
+  .project {
+    gap: 20px;
+  }
+
+  .project-frame {
+    max-width: 420px;
+  }
+
+  .contact {
+    padding: 64px 0;
   }
 }
 
+@media (max-width: 600px) {
+  .work-row,
+  .skill-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
 
-/*Animations*/
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
+  .nav {
+    gap: 16px;
   }
-  50% {
-    background-position: 100% 50%;
+
+  .nav-link-devpost {
+    display: none;
   }
-  100% {
-    background-position: 0% 50%;
+
+  .view-switch {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }
 
-@keyframes slideInFromLeft {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
+@media (max-width: 420px) {
+  .wordmark {
+    font-size: 15px;
   }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
-@keyframes slideUpFromBottom {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  .nav {
+    gap: 12px;
   }
 }
