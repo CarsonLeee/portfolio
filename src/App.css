@@ -6,8 +6,9 @@
   --ink: #1f2320;
   --muted: #676d67;
   --line: #cfd3cc;
-  --accent: #3e5c52;
+  --accent: #5854c6;
   --accent-ink: #f3f5f1;
+  --press: cubic-bezier(0.22, 1, 0.36, 1);
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -21,7 +22,7 @@
   --ink: #e1e4de;
   --muted: #979c95;
   --line: #313530;
-  --accent: #97b5a9;
+  --accent: #9c99f0;
   --accent-ink: #151715;
 }
 
@@ -258,13 +259,31 @@ img {
 }
 
 .segmented {
-  display: inline-flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
 }
 
+.segment-indicator {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.segmented[data-view="tldr"] .segment-indicator {
+  transform: translateX(100%);
+}
+
 .segment {
+  position: relative;
+  z-index: 1;
   padding: 7px 16px;
   border: 0;
   border-radius: 2px;
@@ -273,8 +292,9 @@ img {
   font: inherit;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: color 0.2s ease;
 }
 
 .segment:hover {
@@ -282,7 +302,6 @@ img {
 }
 
 .segment[aria-pressed="true"] {
-  background: var(--accent);
   color: var(--accent-ink);
 }
 
@@ -601,9 +620,115 @@ img {
 
 /* ---------- Page-load reveal ---------- */
 
+/* ---------- Copy-to-clipboard note ---------- */
+
+.email-action {
+  position: relative;
+  display: inline-flex;
+}
+
+.copy-note {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Sits outside the flow so showing it never nudges the next button. */
+.email-action .copy-note {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  white-space: nowrap;
+}
+
+.contact-line .copy-note {
+  margin-left: 10px;
+}
+
+/* ---------- Interaction ---------- */
+
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
     animation: rise 0.7s ease both;
+  }
+
+  /* Press feedback: settles with a slight overshoot on release. */
+  .button,
+  .segment,
+  .theme-toggle,
+  .back-to-top,
+  .wordmark {
+    transition: transform 0.35s var(--press), opacity 0.15s ease,
+      color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .button:active,
+  .segment:active,
+  .theme-toggle:active,
+  .back-to-top:active,
+  .wordmark:active {
+    transform: scale(0.96);
+    transition-duration: 0.08s;
+  }
+
+  .segment-indicator {
+    transition: transform 0.34s var(--press);
+  }
+
+  /* Swapping the sun/moon remounts the icon, replaying this. */
+  .theme-icon {
+    display: inline-flex;
+    animation: icon-in 0.4s var(--press) both;
+  }
+
+  /* Keyed on `view`, so it replays on each switch. */
+  .view-panel {
+    animation: panel-in 0.45s var(--press) both;
+  }
+
+  .copy-note {
+    animation: note-in 0.28s var(--press) both;
+  }
+
+  .nav-link,
+  .work-company,
+  .project-name a,
+  .contact-line a {
+    transition: color 0.15s ease;
+  }
+
+  @keyframes icon-in {
+    from {
+      opacity: 0;
+      transform: rotate(-35deg) scale(0.7);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes note-in {
+    from {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .reveal-1 {

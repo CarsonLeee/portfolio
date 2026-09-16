@@ -185,10 +185,9 @@ const tldrParagraphs = [
 
 const funFacts = [
   "2x hackathon winner",
-  "Lifelong athlete, currently training Brazilian Jiu-Jitsu",
-  "Has built 9 desktop PCs",
+  "Lifelong athlete — these days that means MMA",
+  "Built nine desktop PCs from the parts up",
   "Was told by a high school CS teacher not to study computer science",
-  "Huge MMA and boxing fan",
 ];
 
 function ExternalLink({ href, className, children }) {
@@ -196,6 +195,19 @@ function ExternalLink({ href, className, children }) {
     <a href={href} className={className} target="_blank" rel="noreferrer">
       {children}
     </a>
+  );
+}
+
+function EmailAction({ label, copied, onCopy }) {
+  return (
+    <span className="email-action">
+      <a className="button button-solid" href={`mailto:${EMAIL}`} onClick={onCopy}>
+        {label}
+      </a>
+      <span className="copy-note" role="status">
+        {copied ? `Copied ${EMAIL}` : ""}
+      </span>
+    </span>
   );
 }
 
@@ -219,6 +231,7 @@ function App() {
     }
   });
   const [view, setView] = useState("full");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = darkMode ? "dark" : "light";
@@ -229,6 +242,22 @@ function App() {
       // The theme still applies for this session.
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    if (!copied) return undefined;
+    const timer = setTimeout(() => setCopied(false), 2400);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  // The mailto: link only does something when a mail client is registered,
+  // so copy the address as well and say so. Nothing is blocked either way.
+  const copyEmail = () => {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(EMAIL).then(
+      () => setCopied(true),
+      () => {}
+    );
+  };
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -257,7 +286,9 @@ function App() {
                 darkMode ? "Switch to light theme" : "Switch to dark theme"
               }
             >
-              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+              <span className="theme-icon" key={darkMode ? "sun" : "moon"}>
+                <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+              </span>
             </button>
           </nav>
         </div>
@@ -278,9 +309,11 @@ function App() {
               looking for my next software development role.
             </p>
             <div className="hero-actions reveal reveal-3">
-              <a className="button button-solid" href={`mailto:${EMAIL}`}>
-                Email me
-              </a>
+              <EmailAction
+                label="Email me"
+                copied={copied}
+                onCopy={copyEmail}
+              />
               <ExternalLink className="button button-outline" href={RESUME_URL}>
                 View resume
               </ExternalLink>
@@ -292,7 +325,13 @@ function App() {
         </section>
 
         <div className="view-switch">
-          <div className="segmented" role="group" aria-label="Level of detail">
+          <div
+            className="segmented"
+            role="group"
+            aria-label="Level of detail"
+            data-view={view}
+          >
+            <span className="segment-indicator" aria-hidden="true" />
             <button
               type="button"
               className="segment"
@@ -317,8 +356,9 @@ function App() {
           </p>
         </div>
 
-        {view === "full" ? (
-          <>
+        <div className="view-panel" key={view}>
+          {view === "full" ? (
+            <>
             <Section id="about" label="About">
               <div className="about-grid">
                 {about.map((item) => (
@@ -408,9 +448,11 @@ function App() {
                     {paragraph}
                   </p>
                 ))}
-                <a className="button button-solid" href={`mailto:${EMAIL}`}>
-                  Let's connect
-                </a>
+                <EmailAction
+                  label="Let's connect"
+                  copied={copied}
+                  onCopy={copyEmail}
+                />
               </div>
               <aside className="facts-panel">
                 <h2 className="facts-title">A few fun facts</h2>
@@ -422,14 +464,21 @@ function App() {
               </aside>
             </div>
           </Section>
-        )}
+          )}
+        </div>
 
         <section className="contact" aria-labelledby="contact-title">
           <h2 className="contact-title" id="contact-title">
             Let's build something.
           </h2>
           <p className="contact-line">
-            Reach me at <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            Reach me at{" "}
+            <a href={`mailto:${EMAIL}`} onClick={copyEmail}>
+              {EMAIL}
+            </a>
+            <span className="copy-note" role="status">
+              {copied ? "Copied" : ""}
+            </span>
           </p>
         </section>
       </main>
