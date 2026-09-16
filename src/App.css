@@ -364,32 +364,27 @@ img {
   list-style: none;
 }
 
-.work-row {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 24px;
-  padding: 24px 0;
+.work-job {
+  padding-bottom: 32px;
   border-bottom: 1px solid var(--line);
 }
 
-.work-row:first-child {
-  padding-top: 0;
+.work-job + .work-job {
+  padding-top: 32px;
 }
 
-.work-row:last-child {
+.work-job:last-child {
   padding-bottom: 0;
   border-bottom: 0;
 }
 
-.work-dates {
-  color: var(--muted);
-  font-size: 15px;
-  font-variant-numeric: tabular-nums;
-}
-
-.work-role {
-  font-size: 18px;
-  font-weight: 600;
+.work-company-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 20px;
 }
 
 .work-company {
@@ -401,10 +396,44 @@ img {
   text-decoration: underline;
 }
 
-.work-description {
-  margin-top: 8px;
+.work-location {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: 165px 1fr;
+  gap: 24px;
+  padding-top: 20px;
+}
+
+.work-dates {
+  color: var(--muted);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-role {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.work-points {
+  margin: 10px 0 0;
+  padding-left: 18px;
   color: var(--muted);
   font-size: 16px;
+}
+
+.work-points li + li {
+  margin-top: 8px;
+}
+
+.work-points::marker,
+.work-points li::marker {
+  color: var(--line);
 }
 
 /* ---------- Projects ---------- */

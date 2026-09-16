@@ -40,7 +40,7 @@ const about = [
   {
     title: "What I do",
     image: ideaPic,
-    body: "I build fast, user-friendly software, from mobile apps to full-stack web platforms. My award-winning AR app, ARrive, is a good example: complex technology turned into something simple to use.",
+    body: "I build production software end to end — React and TypeScript front ends, Node and PostgreSQL behind them, and the AWS infrastructure they run on. Most of that work is the insurance platform at Oneday, now the system of record for the company's entire book of business.",
   },
   {
     title: "Why I do it",
@@ -51,28 +51,76 @@ const about = [
 
 const work = [
   {
+    company: "Oneday Insurance",
+    href: "https://onedayinsurance.ca/",
+    location: "Aurora, ON",
+    roles: [
+      {
+        title: "Lead Software Engineer",
+        dates: "Jul 2025 – Present",
+        points: [
+          "Built the company's core insurance platform, replacing the legacy system as the system of record for its entire book of business and now used by 500+ advisors — 70+ screens across application intake, underwriting, and policy servicing over a 111-table database, with 11 role-based workspaces controlling what each type of user can see and do (React, TypeScript, Vite, Node.js, Express, PostgreSQL).",
+          "Led the migration off the legacy platform, building the tool that moved 600+ live policies with their payment schedules and outstanding financial obligations, verifying every field against confirmed reference records so not one policy or payment was lost or corrupted in the transfer.",
+          "Remediated a full pre-launch security audit ahead of go-live, closing 39 findings in two days across encryption of banking and personal identity data, access-control gaps, session hardening, and removal of personal data from logs.",
+          "Built the production AWS environment entirely as code with an automated release pipeline, taking deployments from a manual, error-prone process to a single approved merge, backed by automated testing and 15 health alarms (Terraform, ECS Fargate, GitHub Actions CI/CD).",
+          "Integrated 10+ external systems (industry data exchange, credit bureau, e-signature, payments, email/SMS, CRM) behind a common interface that let the company replace its e-signature vendor on a live system with zero downtime.",
+          "Led development of an internal AI support platform end to end — retrieval over a curated company knowledge base, response guardrails, confidence-based escalation, and automatic ticket creation with full transcript handoff — deliberately scoped to refuse client data, quoting, and eligibility questions (OpenAI API).",
+        ],
+      },
+      {
+        title: "Software Engineer",
+        dates: "Jul 2024 – Jul 2025",
+        points: [
+          "Launched the redesigned life insurance platform for wholesale distribution, enabling 100+ external agents to onboard and write policies at scale.",
+          "Owned payment processing end to end on a Zum Rails integration, automating transaction creation, authorization, status tracking, and failed-payment handling, with every failure routed to the right follow-up action in the CRM.",
+          "Designed the time-based delinquency logic that drives the customer payment lifecycle, using transaction history and escalation windows to move accounts through missed-payment, NSF, and lapsed states automatically, and to restore them to active once payments are recovered.",
+          "Built the identity verification flow behind the application on Equifax, including fallback handling when a verification attempt failed, with secure verification links delivered to applicants by email or SMS.",
+        ],
+      },
+    ],
+  },
+  {
     company: "INNoVA",
     href: "https://theinnovasolution.ca/",
-    role: "Full Stack Application Developer",
-    dates: "Jul – Nov 2023",
-    description:
-      "Architected and led full-cycle development of a mobile application using React Native, Node.js, and AWS, delivering a robust, scalable platform.",
+    location: "Toronto, ON",
+    roles: [
+      {
+        title: "Full Stack Developer",
+        dates: "Jul – Nov 2023",
+        points: [
+          "Led architecture and development of a cross-platform mobile app (React Native, Node.js, Express, AWS), designing the backend to handle high-concurrency usage and carrying the build through to final-stage deployment.",
+          "Integrated external APIs for real-time data processing and cut page load times with a layered caching strategy.",
+        ],
+      },
+    ],
   },
   {
     company: "Perfect Marketing",
     href: "https://www.google.com/search?q=perfect+marketing+inc+toronto",
-    role: "Digital Marketing Assistant Intern",
-    dates: "May – Aug 2021",
-    description:
-      "Collaborated cross-functionally with a subsidiary crypto company and helped expand software installations for GPUs.",
+    location: null,
+    roles: [
+      {
+        title: "Digital Marketing Assistant Intern",
+        dates: "May – Aug 2021",
+        points: [
+          "Collaborated cross-functionally with a subsidiary crypto company and helped expand software installations for GPUs.",
+        ],
+      },
+    ],
   },
   {
     company: "YK Air System",
     href: "https://www.facebook.com/p/Y-K-Air-System-100067125819306/",
-    role: "Software Developer Intern",
-    dates: "May – Aug 2020",
-    description:
-      "Automated workflows with Python, cutting manual data entry by 30% and speeding up the database by 40% through SQL optimization and schema restructuring.",
+    location: null,
+    roles: [
+      {
+        title: "Software Developer Intern",
+        dates: "May – Aug 2020",
+        points: [
+          "Automated workflows with Python, cutting manual data entry by 30% and speeding up the database by 40% through SQL optimization and schema restructuring.",
+        ],
+      },
+    ],
   },
 ];
 
@@ -159,28 +207,28 @@ const projects = [
 const skills = [
   {
     group: "Languages",
-    items:
-      "JavaScript, TypeScript, Python, Java, Swift, C#, C, C++, SQL, HTML, CSS",
+    items: "TypeScript, JavaScript, Python, SQL, Swift, HTML/CSS",
   },
   {
-    group: "Frameworks & services",
+    group: "Frameworks",
     items:
-      "React, React Native, Node.js, Express.js, AWS, MongoDB, Firebase, Bootstrap, jQuery",
+      "React, Node.js, Express, Prisma, React Native, BullMQ, Zod, Vitest, REST APIs",
   },
   {
-    group: "Tools",
-    items: "Git, GitHub, Unity, Figma, Jira, Photoshop, VS Code, Vim, npm, pip",
+    group: "Infrastructure",
+    items:
+      "AWS (ECS Fargate, RDS, ElastiCache, S3/CloudFront), Terraform, Docker, GitHub Actions CI/CD, PostgreSQL, Redis, MongoDB, Git, Sentry",
   },
   {
-    group: "Coursework",
+    group: "Integrations",
     items:
-      "Databases, Data Structures & Algorithms, Object-Oriented Design, Software Engineering",
+      "Zum Rails, Equifax, Twilio, SendGrid, Dropbox Sign, Zoho CRM, OpenAI API",
   },
 ];
 
 const tldrParagraphs = [
-  "I'm a Computer Science graduate from Western University. I've worked as a Full-Stack Application Developer at INNoVA and a Software Developer Intern at YK Air System, and I've won two hackathons along the way.",
-  "I'm looking for roles that challenge me, broaden my expertise, and connect me with people who care about building good software.",
+  "I'm the Lead Software Engineer at Oneday Insurance, where I built the core insurance platform that replaced the legacy system and is now used by 500+ advisors as the system of record for the company's entire book of business.",
+  "Computer Science from Western University, two first-place hackathon wins, and a preference for the problems where being wrong is expensive: payments, migrations, and security.",
 ];
 
 const funFacts = [
@@ -302,11 +350,12 @@ function App() {
               Hi, I'm Carson.
             </p>
             <h1 className="hero-title reveal reveal-1">
-              Software developer building clean, useful apps for web and mobile.
+              Software engineer building insurance platforms people run their
+              business on.
             </h1>
             <p className="hero-subtext reveal reveal-2">
-              Computer Science graduate from Western University, currently
-              looking for my next software development role.
+              Lead Software Engineer at Oneday Insurance. Computer Science,
+              Western University.
             </p>
             <div className="hero-actions reveal reveal-3">
               <EmailAction
@@ -374,17 +423,28 @@ function App() {
             <Section id="work" label="Work">
               <ol className="work-list">
                 {work.map((job) => (
-                  <li className="work-row" key={job.company}>
-                    <p className="work-dates">{job.dates}</p>
-                    <div className="work-main">
-                      <h2 className="work-role">
-                        {job.role},{" "}
-                        <ExternalLink className="work-company" href={job.href}>
-                          {job.company}
-                        </ExternalLink>
-                      </h2>
-                      <p className="work-description">{job.description}</p>
-                    </div>
+                  <li className="work-job" key={job.company}>
+                    <h2 className="work-company-name">
+                      <ExternalLink className="work-company" href={job.href}>
+                        {job.company}
+                      </ExternalLink>
+                      {job.location ? (
+                        <span className="work-location">{job.location}</span>
+                      ) : null}
+                    </h2>
+                    {job.roles.map((role) => (
+                      <div className="work-row" key={role.title}>
+                        <p className="work-dates">{role.dates}</p>
+                        <div className="work-main">
+                          <h3 className="work-role">{role.title}</h3>
+                          <ul className="work-points">
+                            {role.points.map((point) => (
+                              <li key={point.slice(0, 40)}>{point}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    ))}
                   </li>
                 ))}
               </ol>
