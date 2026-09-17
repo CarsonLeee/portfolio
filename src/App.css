@@ -369,6 +369,33 @@ a:hover {
   color: var(--a-ink);
 }
 
+/* Secondary route for visitors whose machine has no mail app. */
+.mail-alt {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+}
+
+.mail-alt:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
+.poster-alt {
+  font-size: 14px;
+  color: var(--accent-ink);
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.poster-alt:hover {
+  color: var(--accent-ink);
+  opacity: 1;
+}
+
 /* ---------- Stats ---------- */
 
 .stats {
@@ -643,6 +670,12 @@ a:hover {
   color: var(--muted);
 }
 
+.earlier-item + .earlier-item {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 .earlier-row {
   display: flex;
   flex-wrap: wrap;
@@ -650,6 +683,10 @@ a:hover {
   gap: 8px;
   font-size: 15px;
   color: var(--muted);
+}
+
+.earlier-item .bullets {
+  margin-top: 10px;
 }
 
 .earlier-role {

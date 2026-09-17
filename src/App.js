@@ -16,6 +16,12 @@ import restaurantfinderGif from "./assets/restaurantfinder.gif";
 import personalwebsiteGif from "./assets/personalwebsite.gif";
 
 const EMAIL = "carson0@hotmail.com";
+const SUBJECT = "Hello Carson";
+const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
+// Fallback for visitors with no mail app registered, where mailto: does nothing.
+const GMAIL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+  EMAIL
+)}&su=${encodeURIComponent(SUBJECT)}`;
 const RESUME =
   "https://drive.google.com/file/d/1pvX55twrePoRAc8TLrMJCai3KjPoTwmL/view?usp=sharing";
 
@@ -27,7 +33,7 @@ const LINKS = [
 ];
 
 const STATS = [
-  { value: "8+ yrs", label: "Writing software" },
+  { value: "8+ years", label: "Writing software" },
   { value: "7", label: "Projects shipped" },
   { value: "2×", label: "Hackathon wins" },
 ];
@@ -110,11 +116,19 @@ const EARLIER = [
     role: "Software Developer Intern",
     company: "YK Air System",
     dates: "2020",
+    points: [
+      "Automated internal workflow processes using Python scripts, reducing manual data entry by 30% and improving operational efficiency across the department.",
+      "Improved database performance by optimizing SQL queries and restructuring schemas, enhancing data retrieval speeds by 40%.",
+    ],
   },
   {
     role: "Digital Marketing Intern",
     company: "Perfect Marketing",
     dates: "2021",
+    points: [
+      "Created digital marketing promotions using Photoshop and Illustrator, driving business sales by 10%.",
+      "Collaborated cross-functionally with a subsidiary crypto company and assisted in the expansion of software installations for Graphics Processing Units.",
+    ],
   },
 ];
 
@@ -227,7 +241,7 @@ const TLDR = [
 
 const FACTS = [
   "2× hackathon winner",
-  "Lifelong athlete — these days that means MMA",
+  "Lifelong athlete — focusing on MMA",
   "Built nine desktop PCs from the parts up",
   "A high school CS teacher told me not to study computer science",
 ];
@@ -392,7 +406,7 @@ function CaseStudy({ onClose }) {
       </div>
 
       <button type="button" className="back-link back-link-end" onClick={onClose}>
-        ← Close case study
+        ← Hide case study
       </button>
     </section>
   );
@@ -473,8 +487,10 @@ function App() {
       firstRender.current = false;
       return;
     }
+    // The case study takes the Work section's place, so both directions
+    // land on the same anchor.
     document
-      .getElementById(caseOpen ? "case-study" : "work")
+      .getElementById("work")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [caseOpen]);
 
@@ -544,15 +560,14 @@ function App() {
               Western University.
             </p>
             <div className="hero-actions">
-              <a
-                className="btn btn-solid"
-                href={`mailto:${EMAIL}`}
-                onClick={copyEmail}
-              >
+              <a className="btn btn-solid" href={MAILTO} onClick={copyEmail}>
                 Email me
               </a>
               <ExternalLink className="btn btn-outline" href={RESUME}>
                 View resume
+              </ExternalLink>
+              <ExternalLink className="mail-alt" href={GMAIL}>
+                or open in Gmail
               </ExternalLink>
               <span className="copy-note" role="status">
                 {copyNote}
@@ -621,6 +636,9 @@ function App() {
 
             <section className="block" id="work">
               <SectionLabel>Work</SectionLabel>
+              {caseOpen ? (
+                <CaseStudy onClose={() => setCaseOpen(false)} />
+              ) : (
               <div className="work-list">
                 {WORK.map((job) => (
                   <div className="card work-card reveal" key={job.company}>
@@ -675,17 +693,25 @@ function App() {
                 <div className="card earlier reveal">
                   <p className="earlier-label">Internships</p>
                   {EARLIER.map((item) => (
-                    <p className="earlier-row" key={item.company}>
-                      <span className="earlier-role">{item.role}</span>
-                      {item.company}
-                      <span className="earlier-dates">{item.dates}</span>
-                    </p>
+                    <div className="earlier-item" key={item.company}>
+                      <p className="earlier-row">
+                        <span className="earlier-role">{item.role}</span>
+                        {item.company}
+                        <span className="earlier-dates">{item.dates}</span>
+                      </p>
+                      <ul className="bullets">
+                        {item.points.map((point) => (
+                          <li key={point.slice(0, 40)}>
+                            <span className="bullet-dot">•</span>
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
                 </div>
               </div>
-              {caseOpen ? (
-                <CaseStudy onClose={() => setCaseOpen(false)} />
-              ) : null}
+              )}
             </section>
 
             <section className="block">
@@ -765,13 +791,12 @@ function App() {
                 </p>
               ))}
               <div className="tldr-actions">
-                <a
-                  className="btn btn-solid"
-                  href={`mailto:${EMAIL}`}
-                  onClick={copyEmail}
-                >
+                <a className="btn btn-solid" href={MAILTO} onClick={copyEmail}>
                   Let's connect
                 </a>
+                <ExternalLink className="mail-alt" href={GMAIL}>
+                  or open in Gmail
+                </ExternalLink>
                 <span className="copy-note" role="status">
                   {copyNote}
                 </span>
@@ -796,13 +821,12 @@ function App() {
             Let's build something.
           </h2>
           <p className="poster-line">
-            <a
-              className="poster-email"
-              href={`mailto:${EMAIL}`}
-              onClick={copyEmail}
-            >
+            <a className="poster-email" href={MAILTO} onClick={copyEmail}>
               {EMAIL}
             </a>
+            <ExternalLink className="poster-alt" href={GMAIL}>
+              or open in Gmail
+            </ExternalLink>
             <span className="poster-note" role="status">
               {copyNote}
             </span>
