@@ -27,7 +27,7 @@ const LINKS = [
 ];
 
 const STATS = [
-  { value: "2+ yrs", label: "Shipping production software" },
+  { value: "8+ yrs", label: "Writing software" },
   { value: "7", label: "Projects shipped" },
   { value: "2×", label: "Hackathon wins" },
 ];
@@ -70,7 +70,7 @@ const WORK = [
           "Lead the platform that is now the company's system of record — every policy, payment and underwriting decision runs through it, across 70+ screens and a 111-table database.",
           "Migrated 600+ live policies off the legacy system with no lost or corrupted data.",
           "Closed 39 pre-launch security-audit findings in two days, most tracing back to a handful of root causes.",
-          "Built the production AWS environment as code, with an automated release pipeline.",
+          "Used the production AWS setup — Terraform, ECS Fargate, GitHub Actions — where a deployment is one approved merge, backed by automated tests and health alarms.",
           "Integrated 10+ external systems behind one interface; swapped the e-signature vendor live with zero downtime.",
           "Led an internal AI support platform with retrieval, guardrails, and confidence-based escalation.",
         ],
@@ -256,18 +256,18 @@ const CASE = {
     },
     {
       n: "03",
-      label: "The migration",
-      body: "600+ live policies had to move with their payment schedules and outstanding financial obligations intact. I built the migration tool to verify every field against confirmed reference records before and after the move, so a mismatch stopped the run instead of quietly corrupting a policy. Not one policy or payment was lost or altered in the transfer.",
-    },
-    {
-      n: "04",
       label: "Security before go-live",
       body: "A full pre-launch audit came back days before launch. I closed all 39 findings in two days — most traced back to a handful of root causes, so fixing one pattern cleared a whole cluster of them: encryption of banking and personal identity data, access-control gaps, session hardening, and stripping personal data out of logs. The platform went live with real customer data fully protected.",
     },
     {
+      n: "04",
+      label: "The migration, after launch",
+      body: "We went live first and let the platform stabilize before moving the existing book across. That left 600+ live policies to migrate with their payment schedules and outstanding financial obligations intact, onto a system already serving customers. I built the migration tool to verify every field against confirmed reference records before and after the move, so a mismatch stopped the run instead of quietly corrupting a policy. Not one policy or payment was lost or altered in the transfer.",
+    },
+    {
       n: "05",
-      label: "Keeping it shippable",
-      body: "I built out the production AWS environment as code — Terraform, ECS Fargate, GitHub Actions — so a deployment is one approved merge for the whole team instead of a manual, error-prone ritual, backed by automated tests and 15 health alarms that surface problems before customers notice. Ten-plus external systems sit behind a common interface, which is how we swapped the e-signature vendor on a live system with zero downtime.",
+      label: "How it ships",
+      body: "We use a production AWS environment defined as code — Terraform, ECS Fargate, GitHub Actions — so a deployment is one approved merge for the whole team instead of a manual, error-prone ritual, backed by automated tests and 15 health alarms that surface problems before customers notice. Ten-plus external systems sit behind a common interface, which is how we swapped the e-signature vendor on a live system with zero downtime.",
     },
   ],
   outcomes: [
@@ -339,6 +339,60 @@ function SectionLabel({ children }) {
   return <h2 className="section-label reveal">{children}</h2>;
 }
 
+// Expands inline under Work rather than replacing the page, so the rest of
+// the portfolio stays visible while it is open.
+function CaseStudy({ onClose }) {
+  return (
+    <section className="case case-inline" id="case-study" aria-label="Case study">
+      <div className="card case-card">
+        <p className="case-kicker">{CASE.kicker}</p>
+        <h3 className="case-title">{CASE.title}</h3>
+        <p className="case-standfirst">{CASE.standfirst}</p>
+        <div className="case-facts">
+          {CASE.facts.map((fact) => (
+            <div key={fact.k}>
+              <p className="case-fact-key">{fact.k}</p>
+              <p className="case-fact-value">{fact.v}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="chapters">
+        {CASE.chapters.map((chapter) => (
+          <div className="card chapter reveal" key={chapter.n}>
+            <p className="chapter-n">{chapter.n}</p>
+            <div>
+              <h4 className="card-heading">{chapter.label}</h4>
+              <p className="chapter-body">{chapter.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="outcomes">
+        {CASE.outcomes.map((out) => (
+          <div className="card outcome reveal lift" key={out.l}>
+            <p className="outcome-value">{out.v}</p>
+            <p className="outcome-label">{out.l}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="closing reveal">
+        <p className="closing-text">{CASE.closing}</p>
+        <ExternalLink className="closing-link" href={PRESS.href}>
+          {PRESS.label} ↗
+        </ExternalLink>
+      </div>
+
+      <button type="button" className="back-link back-link-end" onClick={onClose}>
+        ← Close case study
+      </button>
+    </section>
+  );
+}
+
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     try {
@@ -406,19 +460,22 @@ function App() {
     return () => io.disconnect();
   }, [view, caseOpen]);
 
-  const openCase = () => {
-    setCaseOpen(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // Opening scrolls to the case study; closing returns to Work, where the
+  // button lives. Skipped on first render so the page doesn't jump on load.
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    document
+      .getElementById(caseOpen ? "case-study" : "work")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [caseOpen]);
 
-  // Returning from the case study lands back on Work, where it was opened.
-  const closeCase = () => {
+  const showView = (next) => {
+    setView(next);
     setCaseOpen(false);
-    requestAnimationFrame(() => {
-      document
-        .getElementById("work")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   // mailto: only works when a mail client is registered, so copy the
@@ -511,46 +568,38 @@ function App() {
           ))}
         </div>
 
-        {caseOpen ? (
-          <div className="view-switch">
-            <button type="button" className="back-link" onClick={closeCase}>
-              ← Back to the full story
+        <div className="view-switch">
+          <div className="segmented" role="group" aria-label="Level of detail">
+            <span
+              className="segment-indicator"
+              aria-hidden="true"
+              style={{
+                transform: `translateX(calc(${VIEWS.indexOf(
+                  view
+                )} * (100% + 4px)))`,
+              }}
+            />
+            <button
+              type="button"
+              className="segment"
+              aria-pressed={view === "full"}
+              onClick={() => showView("full")}
+            >
+              Full story
+            </button>
+            <button
+              type="button"
+              className="segment"
+              aria-pressed={view === "tldr"}
+              onClick={() => showView("tldr")}
+            >
+              TLDR
             </button>
           </div>
-        ) : (
-          <div className="view-switch">
-            <div className="segmented" role="group" aria-label="Level of detail">
-              <span
-                className="segment-indicator"
-                aria-hidden="true"
-                style={{
-                  transform: `translateX(calc(${VIEWS.indexOf(
-                    view
-                  )} * (100% + 4px)))`,
-                }}
-              />
-              <button
-                type="button"
-                className="segment"
-                aria-pressed={view === "full"}
-                onClick={() => setView("full")}
-              >
-                Full story
-              </button>
-              <button
-                type="button"
-                className="segment"
-                aria-pressed={view === "tldr"}
-                onClick={() => setView("tldr")}
-              >
-                TLDR
-              </button>
-            </div>
-            <p className="view-hint">{VIEW_HINTS[view]}</p>
-          </div>
-        )}
+          <p className="view-hint">{VIEW_HINTS[view]}</p>
+        </div>
 
-        {!caseOpen && view === "full" ? (
+        {view === "full" ? (
           <div className="view view-in-left">
             <section className="block">
               <SectionLabel>About</SectionLabel>
@@ -571,23 +620,12 @@ function App() {
                 {WORK.map((job) => (
                   <div className="card work-card reveal" key={job.company}>
                     <div className="work-head">
-                      <div className="work-head-left">
-                        <h3 className="work-company">
-                          <ExternalLink href={job.href}>
-                            {job.company}
-                          </ExternalLink>
-                        </h3>
-                        <span className="work-location">{job.location}</span>
-                      </div>
-                      {job.caseStudy ? (
-                        <button
-                          type="button"
-                          className="case-link"
-                          onClick={openCase}
-                        >
-                          Case study →
-                        </button>
-                      ) : null}
+                      <h3 className="work-company">
+                        <ExternalLink href={job.href}>
+                          {job.company}
+                        </ExternalLink>
+                      </h3>
+                      <span className="work-location">{job.location}</span>
                     </div>
                     {job.roles.map((role) => (
                       <div className="work-role" key={role.title}>
@@ -605,10 +643,27 @@ function App() {
                         </ul>
                       </div>
                     ))}
-                    {job.press ? (
-                      <ExternalLink className="press-link" href={PRESS.href}>
-                        {PRESS.label} ↗
-                      </ExternalLink>
+                    {job.press || job.caseStudy ? (
+                      <div className="work-links">
+                        {job.caseStudy ? (
+                          <button
+                            type="button"
+                            className="case-link"
+                            aria-expanded={caseOpen}
+                            aria-controls="case-study"
+                            onClick={() => setCaseOpen((open) => !open)}
+                          >
+                            {caseOpen
+                              ? "Hide case study"
+                              : "Read the case study →"}
+                          </button>
+                        ) : null}
+                        {job.press ? (
+                          <ExternalLink className="press-link" href={PRESS.href}>
+                            {PRESS.label} ↗
+                          </ExternalLink>
+                        ) : null}
+                      </div>
                     ) : null}
                   </div>
                 ))}
@@ -623,6 +678,9 @@ function App() {
                   ))}
                 </div>
               </div>
+              {caseOpen ? (
+                <CaseStudy onClose={() => setCaseOpen(false)} />
+              ) : null}
             </section>
 
             <section className="block">
@@ -692,56 +750,7 @@ function App() {
           </div>
         ) : null}
 
-        {caseOpen ? (
-          <section className="view view-in-right case" aria-label="Case study">
-            <div className="card case-card">
-              <p className="case-kicker">{CASE.kicker}</p>
-              <h2 className="case-title">{CASE.title}</h2>
-              <p className="case-standfirst">{CASE.standfirst}</p>
-              <div className="case-facts">
-                {CASE.facts.map((fact) => (
-                  <div key={fact.k}>
-                    <p className="case-fact-key">{fact.k}</p>
-                    <p className="case-fact-value">{fact.v}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="chapters">
-              {CASE.chapters.map((chapter) => (
-                <div className="card chapter reveal" key={chapter.n}>
-                  <p className="chapter-n">{chapter.n}</p>
-                  <div>
-                    <h3 className="card-heading">{chapter.label}</h3>
-                    <p className="chapter-body">{chapter.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="outcomes">
-              {CASE.outcomes.map((out) => (
-                <div className="card outcome reveal lift" key={out.l}>
-                  <p className="outcome-value">{out.v}</p>
-                  <p className="outcome-label">{out.l}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="closing reveal">
-              <p className="closing-text">{CASE.closing}</p>
-              <ExternalLink className="closing-link" href={PRESS.href}>
-                {PRESS.label} ↗
-              </ExternalLink>
-            </div>
-            <button type="button" className="back-link back-link-end" onClick={closeCase}>
-              ← Back to the full story
-            </button>
-          </section>
-        ) : null}
-
-        {!caseOpen && view === "tldr" ? (
+        {view === "tldr" ? (
           <section className="view view-in-right tldr" aria-label="Summary">
             <div className="card tldr-card">
               <img className="tldr-icon" src={thumbsUpPic} alt="" />

@@ -514,37 +514,41 @@ a:hover {
 .work-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.work-head-left {
-  display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
 }
 
+/* Sits at the foot of the card so it never stacks under the date pill. */
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.work-links .press-link {
+  margin-top: 0;
+}
+
+/* Outlined, to read as an action rather than another soft-purple tag. */
 .case-link {
   flex: none;
-  padding: 7px 14px;
-  border: 1px solid var(--line);
+  padding: 7px 16px;
+  border: 1px solid var(--a);
   border-radius: 999px;
-  background: var(--soft);
+  background: transparent;
   font: inherit;
   font-size: 13px;
   font-weight: 500;
   color: var(--a-ink);
   white-space: nowrap;
   cursor: pointer;
-  transition: transform 0.24s var(--ease), filter 0.2s ease,
-    border-color 0.2s ease;
+  transition: transform 0.24s var(--ease), background 0.2s ease;
 }
 
 .case-link:hover {
-  filter: brightness(0.96);
-  border-color: var(--a);
+  background: var(--soft);
   transform: translateY(-2px);
 }
 
@@ -776,6 +780,12 @@ a:hover {
 
 .case {
   padding: 40px 0 0;
+}
+
+/* Expanded inside the Work section, so it indents slightly and animates in. */
+.case-inline {
+  padding-top: 14px;
+  animation: rise 0.45s var(--ease) both;
 }
 
 .case-card {
