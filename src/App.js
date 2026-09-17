@@ -235,10 +235,10 @@ const CASE = {
   kicker: "Case study — Oneday Insurance",
   title: "Replacing the system a whole insurance business runs on.",
   standfirst:
-    "Oneday sells no-exam life insurance to Canadians other insurers turn away — underwritten by Humania Assurance, sold across seven provinces, with a decision inside 24 hours. That promise ran on a legacy platform nobody could safely change. Over two years a four-engineer team built its replacement. I was one of two technical leads — we split the platform between us — and I owned the migration that moved the live book of business onto it without losing a policy.",
+    "Oneday sells no-exam life insurance to Canadians other insurers turn away — underwritten by Humania Assurance, sold across seven provinces, with a decision inside 24 hours. That promise ran on a legacy platform nobody could safely change. Over two years our engineering team built its replacement. I led the work, and owned the migration that moved the live book of business onto it without losing a policy.",
   facts: [
-    { k: "My role", v: "Lead Software Engineer, one of two leads" },
-    { k: "Team", v: "Four engineers" },
+    { k: "My role", v: "Lead Software Engineer" },
+    { k: "Team", v: "Built with the Oneday engineering team" },
     { k: "Product", v: "No-exam life insurance, 7 provinces" },
     { k: "Stack", v: "React, TypeScript, Node, PostgreSQL, AWS" },
   ],
@@ -251,7 +251,7 @@ const CASE = {
     {
       n: "02",
       label: "What I built",
-      body: "The team built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. Two of us led it, splitting the platform between us by area; I took the intake, payments, and integration layers and built them myself. It is now the system of record for the company's entire book of business, with 500+ advisors onboarded.",
+      body: "The team built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. I led the architecture and the technical direction, and built the intake, payments, and integration layers myself. It is now the system of record for the company's entire book of business, with 500+ advisors onboarded.",
     },
     {
       n: "03",
