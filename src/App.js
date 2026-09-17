@@ -18,10 +18,6 @@ import personalwebsiteGif from "./assets/personalwebsite.gif";
 const EMAIL = "carson0@hotmail.com";
 const SUBJECT = "Hello Carson";
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
-// Fallback for visitors with no mail app registered, where mailto: does nothing.
-const GMAIL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-  EMAIL
-)}&su=${encodeURIComponent(SUBJECT)}`;
 const RESUME =
   "https://drive.google.com/file/d/1pvX55twrePoRAc8TLrMJCai3KjPoTwmL/view?usp=sharing";
 
@@ -566,9 +562,6 @@ function App() {
               <ExternalLink className="btn btn-outline" href={RESUME}>
                 View resume
               </ExternalLink>
-              <ExternalLink className="mail-alt" href={GMAIL}>
-                or open in Gmail
-              </ExternalLink>
               <span className="copy-note" role="status">
                 {copyNote}
               </span>
@@ -804,9 +797,6 @@ function App() {
                 <a className="btn btn-solid" href={MAILTO} onClick={copyEmail}>
                   Let's connect
                 </a>
-                <ExternalLink className="mail-alt" href={GMAIL}>
-                  or open in Gmail
-                </ExternalLink>
                 <span className="copy-note" role="status">
                   {copyNote}
                 </span>
@@ -834,9 +824,6 @@ function App() {
             <a className="poster-email" href={MAILTO} onClick={copyEmail}>
               {EMAIL}
             </a>
-            <ExternalLink className="poster-alt" href={GMAIL}>
-              or open in Gmail
-            </ExternalLink>
             <span className="poster-note" role="status">
               {copyNote}
             </span>
