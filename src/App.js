@@ -635,7 +635,17 @@ function App() {
             </section>
 
             <section className="block" id="work">
-              <SectionLabel>Work</SectionLabel>
+              {caseOpen ? (
+                <button
+                  type="button"
+                  className="back-link section-back"
+                  onClick={() => setCaseOpen(false)}
+                >
+                  ← Hide case study
+                </button>
+              ) : (
+                <SectionLabel>Work</SectionLabel>
+              )}
               {caseOpen ? (
                 <CaseStudy onClose={() => setCaseOpen(false)} />
               ) : (

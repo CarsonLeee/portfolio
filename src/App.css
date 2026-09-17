@@ -477,6 +477,12 @@ a:hover {
   margin-top: 24px;
 }
 
+/* Takes the place of the section label while the case study is open. */
+.section-back {
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
 .segment {
   position: relative;
   z-index: 1;
