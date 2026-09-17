@@ -474,8 +474,8 @@ function App() {
               Hi, I'm Carson
             </p>
             <h1 className="hero-title">
-              Software engineer building production systems end to end — web,
-              mobile, and the infrastructure under them.
+              Software engineer building production systems across web, mobile,
+              and the infrastructure under them.
             </h1>
             <p className="hero-subtext">
               Lead Software Engineer at Oneday Insurance. Computer Science,
