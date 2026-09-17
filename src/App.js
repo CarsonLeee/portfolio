@@ -252,7 +252,7 @@ const CASE = {
     {
       n: "02",
       label: "What I built",
-      body: "The team built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. I led the architecture and the technical direction, and built the intake, payments, and integration layers myself. It is now the system of record for the company's entire book of business, with 500+ advisors onboarded.",
+      body: "I built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. I set the architecture and the technical direction, and wrote the intake, payments, and integration layers. It is now the system of record for the company's entire book of business, with 500+ advisors onboarded.",
     },
     {
       n: "03",
