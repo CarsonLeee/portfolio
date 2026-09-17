@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Claude Design canvas export (52MB of duplicated assets)
+/Software engineer website redesign

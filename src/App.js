@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 import profilePic from "./assets/pic.jpg";
 import wavePic from "./assets/wave.png";
@@ -18,63 +16,72 @@ import restaurantfinderGif from "./assets/restaurantfinder.gif";
 import personalwebsiteGif from "./assets/personalwebsite.gif";
 
 const EMAIL = "carson0@hotmail.com";
-const RESUME_URL =
+const RESUME =
   "https://drive.google.com/file/d/16Wy8S_9tEVo-ayxfbH7vc6vgnByTTPio/view?usp=sharing";
 
-const links = [
-  {
-    label: "Devpost",
-    href: "https://devpost.com/CarsonLeee?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav",
-  },
+const LINKS = [
+  { label: "Devpost", href: "https://devpost.com/CarsonLeee" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/carson-lee/" },
   { label: "GitHub", href: "https://github.com/CarsonLeee" },
-  { label: "Resume", href: RESUME_URL },
+  { label: "Resume", href: RESUME },
 ];
 
-const about = [
+const STATS = [
+  { value: "500+", label: "Advisors on the platform" },
+  { value: "600+", label: "Policies migrated, zero lost" },
+  { value: "2×", label: "First-place hackathon wins" },
+];
+
+const ABOUT = [
   {
     title: "Who I am",
     image: computerPic,
-    body: "A computer science graduate from Western University with a knack for technology. My interest started in childhood with video games and building PCs, and grew into a career that blends technical skill with a creative mindset.",
+    body: "Computer science graduate from Western University. Started with video games and PC builds, ended up building software for a living.",
   },
   {
     title: "What I do",
     image: ideaPic,
-    body: "I build production software end to end — React and TypeScript front ends, Node and PostgreSQL behind them, and the AWS infrastructure they run on. Most of that work is the insurance platform at Oneday, now the system of record for the company's entire book of business.",
+    body: "Production software end to end, mostly alongside a team — React and TypeScript front ends, Node and PostgreSQL behind them, AWS underneath.",
   },
   {
     title: "Why I do it",
     image: thinkingPic,
-    body: "I want technology to make everyday life better. Whether it's an educational game like ClimateHeroes or a practical tool like AI Chef, I enjoy turning big ideas into things people actually use.",
+    body: "I like the problems where being wrong is expensive: payments, migrations, security. And turning big ideas into things people use.",
   },
 ];
 
-const work = [
+const PRESS = {
+  label: "The Financial Post on the platform launch",
+  href: "https://financialpost.com/pmn/business-wire-news-releases-pmn/the-future-of-life-insurance-is-here-onedays-agent-first-platform-and-products-hit-the-canadian-market",
+};
+
+const WORK = [
   {
     company: "Oneday Insurance",
     href: "https://onedayinsurance.ca/",
     location: "Aurora, ON",
+    press: true,
     roles: [
       {
         title: "Lead Software Engineer",
         dates: "Jul 2025 – Present",
         points: [
-          "Built the company's core insurance platform, replacing the legacy system as the system of record for its entire book of business and now used by 500+ advisors — 70+ screens across application intake, underwriting, and policy servicing over a 111-table database, with 11 role-based workspaces controlling what each type of user can see and do (React, TypeScript, Vite, Node.js, Express, PostgreSQL).",
-          "Led the migration off the legacy platform, building the tool that moved 600+ live policies with their payment schedules and outstanding financial obligations, verifying every field against confirmed reference records so not one policy or payment was lost or corrupted in the transfer.",
-          "Remediated a full pre-launch security audit ahead of go-live, closing 39 findings in two days across encryption of banking and personal identity data, access-control gaps, session hardening, and removal of personal data from logs.",
-          "Built the production AWS environment entirely as code with an automated release pipeline, taking deployments from a manual, error-prone process to a single approved merge, backed by automated testing and 15 health alarms (Terraform, ECS Fargate, GitHub Actions CI/CD).",
-          "Integrated 10+ external systems (industry data exchange, credit bureau, e-signature, payments, email/SMS, CRM) behind a common interface that let the company replace its e-signature vendor on a live system with zero downtime.",
-          "Led development of an internal AI support platform end to end — retrieval over a curated company knowledge base, response guardrails, confidence-based escalation, and automatic ticket creation with full transcript handoff — deliberately scoped to refuse client data, quoting, and eligibility questions (OpenAI API).",
+          "Led the build of the core insurance platform — 70+ screens, 111-table database — now the system of record for the company's whole book of business.",
+          "Migrated 600+ live policies off the legacy system with no lost or corrupted data.",
+          "Closed 39 security-audit findings in two days before go-live.",
+          "Built the production AWS environment as code, with an automated release pipeline.",
+          "Integrated 10+ external systems behind one interface; swapped the e-signature vendor live with zero downtime.",
+          "Led an internal AI support platform with retrieval, guardrails, and confidence-based escalation.",
         ],
       },
       {
         title: "Software Engineer",
         dates: "Jul 2024 – Jul 2025",
         points: [
-          "Launched the redesigned life insurance platform for wholesale distribution, enabling 100+ external agents to onboard and write policies at scale.",
-          "Owned payment processing end to end on a Zum Rails integration, automating transaction creation, authorization, status tracking, and failed-payment handling, with every failure routed to the right follow-up action in the CRM.",
-          "Designed the time-based delinquency logic that drives the customer payment lifecycle, using transaction history and escalation windows to move accounts through missed-payment, NSF, and lapsed states automatically, and to restore them to active once payments are recovered.",
-          "Built the identity verification flow behind the application on Equifax, including fallback handling when a verification attempt failed, with secure verification links delivered to applicants by email or SMS.",
+          "Launched the wholesale life insurance platform for 100+ external agents — covered in the Financial Post.",
+          "Owned payment processing end to end on Zum Rails, including failed-payment handling.",
+          "Designed the delinquency logic driving the customer payment lifecycle.",
+          "Built identity verification on Equifax, with fallbacks and secure links by email or SMS.",
         ],
       },
     ],
@@ -83,102 +90,88 @@ const work = [
     company: "INNoVA",
     href: "https://theinnovasolution.ca/",
     location: "Toronto, ON",
+    press: false,
     roles: [
       {
         title: "Full Stack Developer",
         dates: "Jul – Nov 2023",
         points: [
-          "Led architecture and development of a cross-platform mobile app (React Native, Node.js, Express, AWS), designing the backend to handle high-concurrency usage and carrying the build through to final-stage deployment.",
-          "Integrated external APIs for real-time data processing and cut page load times with a layered caching strategy.",
-        ],
-      },
-    ],
-  },
-  {
-    company: "Perfect Marketing",
-    href: "https://www.google.com/search?q=perfect+marketing+inc+toronto",
-    location: null,
-    roles: [
-      {
-        title: "Digital Marketing Assistant Intern",
-        dates: "May – Aug 2021",
-        points: [
-          "Collaborated cross-functionally with a subsidiary crypto company and helped expand software installations for GPUs.",
-        ],
-      },
-    ],
-  },
-  {
-    company: "YK Air System",
-    href: "https://www.facebook.com/p/Y-K-Air-System-100067125819306/",
-    location: null,
-    roles: [
-      {
-        title: "Software Developer Intern",
-        dates: "May – Aug 2020",
-        points: [
-          "Automated workflows with Python, cutting manual data entry by 30% and speeding up the database by 40% through SQL optimization and schema restructuring.",
+          "Led architecture and build of a cross-platform mobile app (React Native, Node, AWS) through to deployment.",
+          "Cut page load times with a layered caching strategy.",
         ],
       },
     ],
   },
 ];
 
-const projects = [
+const EARLIER = [
+  {
+    role: "Software Developer Intern",
+    company: "YK Air System",
+    dates: "2020",
+  },
+  {
+    role: "Digital Marketing Intern",
+    company: "Perfect Marketing",
+    dates: "2021",
+  },
+];
+
+const PROJECTS = [
   {
     name: "ASLearn",
-    kind: "Swift mobile app",
+    kind: "Swift app",
     award: null,
     href: "https://youtu.be/r_kv72kp82o",
     image: aslearnGif,
     alt: "ASLearn demo",
     description:
-      "An app for learning American Sign Language. Gesture Guess quizzes you with multiple-choice questions, and Sign Sculptor uses machine learning to give real-time feedback on your signing through the camera.",
-    tags: ["Swift", "Machine learning", "Firebase"],
+      "Learn American Sign Language: multiple-choice drills plus live camera feedback on your signing via a machine learning model.",
+    tags: ["Swift", "ML", "Firebase"],
   },
   {
     name: "InvestAlytics",
-    kind: "Full-stack web app",
+    kind: "Full-stack web",
     award: null,
     href: "https://youtu.be/gZZPqXrzDvs",
     image: investalyticsGif,
     alt: "InvestAlytics demo",
     description:
-      "A MERN app with Python machine learning that predicts end-of-day stock prices. Includes real-time market data, personal watchlists, and a stock evaluation tool built on a weighted scoring system.",
-    tags: ["MongoDB", "Express", "React", "Node.js", "Python"],
+      "MERN app with Python ML predicting end-of-day stock prices, plus live market data, watchlists, and a weighted scoring tool.",
+    tags: ["React", "Node", "Python"],
   },
   {
     name: "ARrive",
-    kind: "Augmented reality app",
-    award: "1st place overall, hackathon",
+    kind: "Augmented reality",
+    award: "1st place, hackathon",
     href: "https://www.youtube.com/watch?v=9xUEvrdHoP4",
     image: arriveGif,
     alt: "ARrive demo",
     description:
-      "Recognizes AC Transit bus signs in real time and overlays transit information, blending physical and digital worlds to make commuting easier.",
-    tags: ["Swift", "ARKit", "Xcode"],
+      "Recognizes AC Transit bus signs in real time and overlays transit info on top of them.",
+    tags: ["Swift", "ARKit"],
   },
   {
     name: "ClimateHeroes",
     kind: "Unity game",
-    award: "1st place in category, hackathon",
+    award: "1st in category",
     href: "https://www.youtube.com/watch?v=Bvs19RVjYaU",
     image: climateheroesGif,
     alt: "ClimateHeroes demo",
     description:
-      "A tower defense game that teaches players about clean energy and how to fight climate change.",
+      "A tower defense game that teaches clean energy and climate action.",
     tags: ["C#", "Unity"],
   },
   {
     name: "AI Chef",
-    kind: "Full-stack web app",
+    kind: "Full-stack web",
     award: null,
     href: "https://github.com/CarsonLeee/AI-Chef",
     image: aichefGif,
     alt: "AI Chef demo",
     description:
-      "Generates creative recipes from the ingredients you have, using OpenAI and the Spoonacular API, with an interactive React interface.",
-    tags: ["React", "OpenAI", "Spoonacular API"],
+      "Generates recipes from whatever's in your kitchen, using OpenAI and the Spoonacular API.",
+    tags: ["React", "OpenAI"],
   },
   {
     name: "Restaurant Finder",
@@ -188,23 +181,23 @@ const projects = [
     image: restaurantfinderGif,
     alt: "Restaurant Finder demo",
     description:
-      "Helps you discover places to eat nearby, using Google Maps and a restaurant API for accurate, real-time results.",
-    tags: ["JavaScript", "Google Maps API"],
+      "Finds places to eat nearby with Google Maps and live restaurant data.",
+    tags: ["JavaScript", "Maps API"],
   },
   {
     name: "Personal Website v1",
-    kind: "Front-end site",
+    kind: "Front-end",
     award: null,
     href: "https://v1.carsonlee.ca/",
     image: personalwebsiteGif,
     alt: "Personal Website v1 demo",
     description:
-      "My first website, with interactive elements and a responsive layout. A key milestone in my coding journey.",
-    tags: ["HTML", "CSS", "JavaScript"],
+      "My first site — interactive, responsive, and a real milestone in learning to build things.",
+    tags: ["HTML", "CSS", "JS"],
   },
 ];
 
-const skills = [
+const SKILLS = [
   {
     group: "Languages",
     items: "TypeScript, JavaScript, Python, SQL, Swift, HTML/CSS",
@@ -226,48 +219,124 @@ const skills = [
   },
 ];
 
-const tldrParagraphs = [
-  "I'm the Lead Software Engineer at Oneday Insurance, where I built the core insurance platform that replaced the legacy system and is now used by 500+ advisors as the system of record for the company's entire book of business.",
-  "Computer Science from Western University, two first-place hackathon wins, and a preference for the problems where being wrong is expensive: payments, migrations, and security.",
+const TLDR = [
+  "Lead Software Engineer at Oneday Insurance, where I led the build of the core insurance platform that replaced the legacy system — now the system of record for 500+ advisors.",
+  "Computer Science at Western, two first-place hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
 ];
 
-const funFacts = [
-  "2x hackathon winner",
+const FACTS = [
+  "2× hackathon winner",
   "Lifelong athlete — these days that means MMA",
   "Built nine desktop PCs from the parts up",
-  "Was told by a high school CS teacher not to study computer science",
+  "A high school CS teacher told me not to study computer science",
 ];
 
-function ExternalLink({ href, className, children }) {
+const CASE = {
+  kicker: "Case study — Oneday Insurance",
+  title: "Replacing the system a whole insurance business runs on.",
+  standfirst:
+    "Oneday sells no-exam life insurance to Canadians other insurers turn away — underwritten by Humania Assurance, sold across seven provinces, with a decision inside 24 hours. That promise ran on a legacy platform nobody could safely change. Over two years our engineering team built its replacement. I led the work, and owned the migration that moved the live book of business onto it without losing a policy.",
+  facts: [
+    { k: "My role", v: "Lead Software Engineer" },
+    { k: "Team", v: "Built with the Oneday engineering team" },
+    { k: "Product", v: "No-exam life insurance, 7 provinces" },
+    { k: "Stack", v: "React, TypeScript, Node, PostgreSQL, AWS" },
+  ],
+  chapters: [
+    {
+      n: "01",
+      label: "The problem",
+      body: "A 24-hour decision on applicants with real health histories only works if intake, underwriting and servicing are fast and correct. The legacy platform was the only record of who was insured, what they owed, and what had been paid — so every new product idea queued behind it and nothing could change quickly without risking live policies. Replacing it meant rebuilding all three at once; the business had no appetite for a half-migrated state.",
+    },
+    {
+      n: "02",
+      label: "What I built",
+      body: "The team built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. I led the architecture and the technical direction, and built the intake, payments, and integration layers myself. It is now the system of record for the company's entire book of business, used by 500+ advisors.",
+    },
+    {
+      n: "03",
+      label: "The migration",
+      body: "600+ live policies had to move with their payment schedules and outstanding financial obligations intact. I built the migration tool to verify every field against confirmed reference records before and after the move, so a mismatch stopped the run instead of quietly corrupting a policy. Not one policy or payment was lost or altered in the transfer.",
+    },
+    {
+      n: "04",
+      label: "Security before go-live",
+      body: "A full pre-launch audit came back days before launch. I closed 39 findings in two days: encryption of banking and personal identity data, access-control gaps, session hardening, and stripping personal data out of logs. The platform went live with real customer data fully protected.",
+    },
+    {
+      n: "05",
+      label: "Keeping it shippable",
+      body: "I built out the production AWS environment as code — Terraform, ECS Fargate, GitHub Actions — so a deployment is one approved merge for the whole team instead of a manual, error-prone ritual, backed by automated tests and 15 health alarms that surface problems before customers notice. Ten-plus external systems sit behind a common interface, which is how we swapped the e-signature vendor on a live system with zero downtime.",
+    },
+  ],
+  outcomes: [
+    { v: "500+", l: "Advisors working in the platform daily" },
+    { v: "0", l: "Policies or payments lost in migration" },
+    { v: "39", l: "Security findings closed in two days" },
+    { v: "1 merge", l: "From manual releases to one approved merge" },
+  ],
+  closing:
+    "The decision I'd make again: having the migration tool refuse to run on a mismatch. It turned a reconciliation risk into a problem we caught before it ever reached a customer.",
+};
+
+const VIEWS = ["full", "case", "tldr"];
+const VIEW_HINTS = {
+  full: "Want the short version? Try TLDR.",
+  case: "How the Oneday platform got built.",
+  tldr: "The short version, in one screen.",
+};
+
+function ExternalLink({ href, className, children, ...rest }) {
   return (
-    <a href={href} className={className} target="_blank" rel="noreferrer">
+    <a
+      href={href}
+      className={className}
+      target="_blank"
+      rel="noreferrer"
+      {...rest}
+    >
       {children}
     </a>
   );
 }
 
-function EmailAction({ label, copied, onCopy }) {
+function MoonIcon() {
   return (
-    <span className="email-action">
-      <a className="button button-solid" href={`mailto:${EMAIL}`} onClick={onCopy}>
-        {label}
-      </a>
-      <span className="copy-note" role="status">
-        {copied ? `Copied ${EMAIL}` : ""}
-      </span>
-    </span>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
   );
 }
 
-function Section({ id, label, children }) {
+function SunIcon() {
   return (
-    <section className="section" id={id} aria-labelledby={`${id}-label`}>
-      <p className="section-label" id={`${id}-label`}>
-        {label}
-      </p>
-      <div className="section-body">{children}</div>
-    </section>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4" />
+    </svg>
   );
+}
+
+function SectionLabel({ children }) {
+  return <h2 className="section-label reveal">{children}</h2>;
 }
 
 function App() {
@@ -280,6 +349,7 @@ function App() {
   });
   const [view, setView] = useState("full");
   const [copied, setCopied] = useState(false);
+  const progressRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.dataset.theme = darkMode ? "dark" : "light";
@@ -287,7 +357,6 @@ function App() {
       localStorage.setItem("darkMode", darkMode ? "true" : "false");
     } catch {
       // Storage can be unavailable (private mode, blocked cookies).
-      // The theme still applies for this session.
     }
   }, [darkMode]);
 
@@ -297,27 +366,67 @@ function App() {
     return () => clearTimeout(timer);
   }, [copied]);
 
-  // The mailto: link only does something when a mail client is registered,
-  // so copy the address as well and say so. Nothing is blocked either way.
-  const copyEmail = () => {
+  // Scroll progress bar under the header.
+  useEffect(() => {
+    const onScroll = () => {
+      const bar = progressRef.current;
+      if (!bar) return;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      bar.style.transform = `scaleX(${p})`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Reveal on scroll, staggered by position within the element's own group.
+  // Re-runs per view so newly mounted cards get observed too.
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return undefined;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const siblings = Array.from(el.parentElement?.children || []);
+          const i = Math.min(siblings.indexOf(el), 5);
+          el.style.transitionDelay = i > 0 ? `${i * 60}ms` : "0ms";
+          el.dataset.shown = "1";
+          io.unobserve(el);
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => {
+      if (el.dataset.shown !== "1") io.observe(el);
+    });
+    return () => io.disconnect();
+  }, [view]);
+
+  // mailto: only works when a mail client is registered, so copy the
+  // address as well and confirm it.
+  const copyEmail = useCallback(() => {
     if (!navigator.clipboard) return;
     navigator.clipboard.writeText(EMAIL).then(
       () => setCopied(true),
       () => {}
     );
-  };
+  }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const toTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const copyNote = copied ? "Copied" : "";
 
   return (
     <div className="app">
       <header className="header">
         <div className="header-inner">
-          <button type="button" className="wordmark" onClick={scrollToTop}>
+          <button type="button" className="wordmark" onClick={toTop}>
             Carson Lee
           </button>
           <nav className="nav" aria-label="Profiles and resume">
-            {links.map((link) => (
+            {LINKS.map((link) => (
               <ExternalLink
                 key={link.label}
                 href={link.href}
@@ -334,53 +443,69 @@ function App() {
                 darkMode ? "Switch to light theme" : "Switch to dark theme"
               }
             >
-              <span className="theme-icon" key={darkMode ? "sun" : "moon"}>
-                <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
-              </span>
+              {darkMode ? <SunIcon /> : <MoonIcon />}
             </button>
           </nav>
         </div>
+        <div className="progress" aria-hidden="true" ref={progressRef} />
       </header>
 
       <main className="main">
         <section className="hero" aria-label="Introduction">
           <div className="hero-text">
-            <p className="hero-eyebrow reveal">
-              <img className="hero-bitmoji" src={wavePic} alt="" />
-              Hi, I'm Carson.
+            <p className="hero-badge">
+              <img src={wavePic} alt="" />
+              Hi, I'm Carson
             </p>
-            <h1 className="hero-title reveal reveal-1">
+            <h1 className="hero-title">
               Software engineer building insurance platforms people run their
               business on.
             </h1>
-            <p className="hero-subtext reveal reveal-2">
+            <p className="hero-subtext">
               Lead Software Engineer at Oneday Insurance. Computer Science,
               Western University.
             </p>
-            <div className="hero-actions reveal reveal-3">
-              <EmailAction
-                label="Email me"
-                copied={copied}
-                onCopy={copyEmail}
-              />
-              <ExternalLink className="button button-outline" href={RESUME_URL}>
+            <div className="hero-actions">
+              <a
+                className="btn btn-solid"
+                href={`mailto:${EMAIL}`}
+                onClick={copyEmail}
+              >
+                Email me
+              </a>
+              <ExternalLink className="btn btn-outline" href={RESUME}>
                 View resume
               </ExternalLink>
+              <span className="copy-note" role="status">
+                {copyNote}
+              </span>
             </div>
           </div>
-          <div className="hero-photo reveal reveal-2">
+          <div className="hero-photo">
             <img src={profilePic} alt="Carson Lee" />
           </div>
         </section>
 
+        <div className="stats">
+          {STATS.map((stat) => (
+            <div className="stat card reveal lift" key={stat.label}>
+              <p className="stat-value">{stat.value}</p>
+              <p className="stat-label">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="view-switch">
-          <div
-            className="segmented"
-            role="group"
-            aria-label="Level of detail"
-            data-view={view}
-          >
-            <span className="segment-indicator" aria-hidden="true" />
+          <div className="segmented" role="group" aria-label="Level of detail">
+            <span
+              className="segment-indicator"
+              aria-hidden="true"
+              style={{
+                transform: `translateX(calc(${VIEWS.indexOf(
+                  view
+                )} * (100% + 4px)))`,
+              }}
+            />
             <button
               type="button"
               className="segment"
@@ -392,88 +517,127 @@ function App() {
             <button
               type="button"
               className="segment"
+              aria-pressed={view === "case"}
+              onClick={() => setView("case")}
+            >
+              Case study
+            </button>
+            <button
+              type="button"
+              className="segment"
               aria-pressed={view === "tldr"}
               onClick={() => setView("tldr")}
             >
               TLDR
             </button>
           </div>
-          <p className="view-hint">
-            {view === "full"
-              ? "Want the short version? Try TLDR."
-              : "The short version, in one screen."}
-          </p>
+          <p className="view-hint">{VIEW_HINTS[view]}</p>
         </div>
 
-        <div className="view-panel" key={view}>
-          {view === "full" ? (
-            <>
-            <Section id="about" label="About">
+        {view === "full" ? (
+          <div className="view view-in-left">
+            <section className="block">
+              <SectionLabel>About</SectionLabel>
               <div className="about-grid">
-                {about.map((item) => (
-                  <article className="about-item" key={item.title}>
-                    <img className="about-bitmoji" src={item.image} alt="" />
-                    <h2 className="about-title">{item.title}</h2>
-                    <p className="about-body">{item.body}</p>
+                {ABOUT.map((item) => (
+                  <article className="card reveal lift" key={item.title}>
+                    <img className="about-icon" src={item.image} alt="" />
+                    <h3 className="card-title">{item.title}</h3>
+                    <p className="card-body">{item.body}</p>
                   </article>
                 ))}
               </div>
-            </Section>
+            </section>
 
-            <Section id="work" label="Work">
-              <ol className="work-list">
-                {work.map((job) => (
-                  <li className="work-job" key={job.company}>
-                    <h2 className="work-company-name">
-                      <ExternalLink className="work-company" href={job.href}>
-                        {job.company}
-                      </ExternalLink>
-                      {job.location ? (
-                        <span className="work-location">{job.location}</span>
-                      ) : null}
-                    </h2>
+            <section className="block">
+              <SectionLabel>Work</SectionLabel>
+              <div className="work-list">
+                {WORK.map((job) => (
+                  <div className="card work-card reveal" key={job.company}>
+                    <div className="work-head">
+                      <h3 className="work-company">
+                        <ExternalLink href={job.href}>
+                          {job.company}
+                        </ExternalLink>
+                      </h3>
+                      <span className="work-location">{job.location}</span>
+                    </div>
                     {job.roles.map((role) => (
-                      <div className="work-row" key={role.title}>
-                        <p className="work-dates">{role.dates}</p>
-                        <div className="work-main">
-                          <h3 className="work-role">{role.title}</h3>
-                          <ul className="work-points">
-                            {role.points.map((point) => (
-                              <li key={point.slice(0, 40)}>{point}</li>
-                            ))}
-                          </ul>
+                      <div className="work-role" key={role.title}>
+                        <div className="work-role-head">
+                          <h4 className="work-role-title">{role.title}</h4>
+                          <span className="pill">{role.dates}</span>
                         </div>
+                        <ul className="bullets">
+                          {role.points.map((point) => (
+                            <li key={point.slice(0, 40)}>
+                              <span className="bullet-dot">•</span>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     ))}
-                  </li>
+                    {job.press ? (
+                      <ExternalLink className="press-link" href={PRESS.href}>
+                        {PRESS.label} ↗
+                      </ExternalLink>
+                    ) : null}
+                  </div>
                 ))}
-              </ol>
-            </Section>
+                <div className="card earlier reveal">
+                  <p className="earlier-label">Earlier</p>
+                  {EARLIER.map((item) => (
+                    <p className="earlier-row" key={item.company}>
+                      <span className="earlier-role">{item.role}</span>
+                      {item.company}
+                      <span className="earlier-dates">{item.dates}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </section>
 
-            <Section id="projects" label="Projects">
-              <div className="project-list">
-                {projects.map((project) => (
-                  <article className="project" key={project.name}>
-                    <ExternalLink className="project-frame" href={project.href}>
+            <section className="block">
+              <SectionLabel>Education</SectionLabel>
+              <div className="card education reveal lift">
+                <div>
+                  <h3 className="card-heading">
+                    The University of Western Ontario
+                  </h3>
+                  <p className="card-body">
+                    Bachelor of Science, Computer Science — London, ON
+                  </p>
+                </div>
+                <span className="pill">Sept 2019 – Apr 2023</span>
+              </div>
+            </section>
+
+            <section className="block">
+              <SectionLabel>Projects</SectionLabel>
+              <div className="projects-grid">
+                {PROJECTS.map((project) => (
+                  <article className="card project reveal lift" key={project.name}>
+                    <ExternalLink className="project-media" href={project.href}>
                       <img
                         src={project.image}
                         alt={project.alt}
                         loading="lazy"
                       />
                     </ExternalLink>
-                    <div className="project-main">
-                      <p className="project-kind">{project.kind}</p>
-                      <h2 className="project-name">
-                        <ExternalLink href={project.href}>
-                          {project.name}
-                        </ExternalLink>
-                      </h2>
+                    <div className="project-body">
+                      <div className="project-head">
+                        <h3 className="card-title">
+                          <ExternalLink href={project.href}>
+                            {project.name}
+                          </ExternalLink>
+                        </h3>
+                        <span className="project-kind">{project.kind}</span>
+                      </div>
                       {project.award ? (
-                        <p className="project-award">{project.award}</p>
+                        <p className="pill pill-block">{project.award}</p>
                       ) : null}
-                      <p className="project-description">
-                        {project.description}
-                      </p>
+                      <p className="card-body">{project.description}</p>
                       <ul className="tag-list">
                         {project.tags.map((tag) => (
                           <li className="tag" key={tag}>
@@ -485,71 +649,130 @@ function App() {
                   </article>
                 ))}
               </div>
-            </Section>
+            </section>
 
-            <Section id="skills" label="Skills">
+            <section className="block">
+              <SectionLabel>Skills</SectionLabel>
               <dl className="skills-list">
-                {skills.map((skill) => (
-                  <div className="skill-row" key={skill.group}>
+                {SKILLS.map((skill) => (
+                  <div className="card skill-row reveal" key={skill.group}>
                     <dt className="skill-group">{skill.group}</dt>
                     <dd className="skill-items">{skill.items}</dd>
                   </div>
                 ))}
               </dl>
-            </Section>
-          </>
-        ) : (
-          <Section id="tldr" label="In short">
-            <div className="tldr-grid">
-              <div className="tldr-main">
-                <img className="tldr-bitmoji" src={thumbsUpPic} alt="" />
-                {tldrParagraphs.map((paragraph) => (
-                  <p className="tldr-paragraph" key={paragraph.slice(0, 24)}>
-                    {paragraph}
-                  </p>
-                ))}
-                <EmailAction
-                  label="Let's connect"
-                  copied={copied}
-                  onCopy={copyEmail}
-                />
-              </div>
-              <aside className="facts-panel">
-                <h2 className="facts-title">A few fun facts</h2>
-                <ul className="facts-list">
-                  {funFacts.map((fact) => (
-                    <li key={fact}>{fact}</li>
-                  ))}
-                </ul>
-              </aside>
-            </div>
-          </Section>
-          )}
-        </div>
+            </section>
+          </div>
+        ) : null}
 
-        <section className="contact" aria-labelledby="contact-title">
-          <h2 className="contact-title" id="contact-title">
+        {view === "case" ? (
+          <section className="view view-in-right case" aria-label="Case study">
+            <div className="card case-card">
+              <p className="case-kicker">{CASE.kicker}</p>
+              <h2 className="case-title">{CASE.title}</h2>
+              <p className="case-standfirst">{CASE.standfirst}</p>
+              <div className="case-facts">
+                {CASE.facts.map((fact) => (
+                  <div key={fact.k}>
+                    <p className="case-fact-key">{fact.k}</p>
+                    <p className="case-fact-value">{fact.v}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="chapters">
+              {CASE.chapters.map((chapter) => (
+                <div className="card chapter reveal" key={chapter.n}>
+                  <p className="chapter-n">{chapter.n}</p>
+                  <div>
+                    <h3 className="card-heading">{chapter.label}</h3>
+                    <p className="chapter-body">{chapter.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="outcomes">
+              {CASE.outcomes.map((out) => (
+                <div className="card outcome reveal lift" key={out.l}>
+                  <p className="outcome-value">{out.v}</p>
+                  <p className="outcome-label">{out.l}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="closing reveal">
+              <p className="closing-text">{CASE.closing}</p>
+              <ExternalLink className="closing-link" href={PRESS.href}>
+                {PRESS.label} ↗
+              </ExternalLink>
+            </div>
+          </section>
+        ) : null}
+
+        {view === "tldr" ? (
+          <section className="view view-in-right tldr" aria-label="Summary">
+            <div className="card tldr-card">
+              <img className="tldr-icon" src={thumbsUpPic} alt="" />
+              {TLDR.map((para) => (
+                <p className="tldr-para" key={para.slice(0, 24)}>
+                  {para}
+                </p>
+              ))}
+              <div className="tldr-actions">
+                <a
+                  className="btn btn-solid"
+                  href={`mailto:${EMAIL}`}
+                  onClick={copyEmail}
+                >
+                  Let's connect
+                </a>
+                <span className="copy-note" role="status">
+                  {copyNote}
+                </span>
+              </div>
+            </div>
+            <aside className="card facts-panel">
+              <h2 className="facts-title">A few fun facts</h2>
+              <ul className="bullets">
+                {FACTS.map((fact) => (
+                  <li key={fact}>
+                    <span className="bullet-dot">•</span>
+                    <span>{fact}</span>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </section>
+        ) : null}
+
+        <section className="poster reveal" aria-labelledby="poster-title">
+          <h2 className="poster-title" id="poster-title">
             Let's build something.
           </h2>
-          <p className="contact-line">
-            Reach me at{" "}
-            <a href={`mailto:${EMAIL}`} onClick={copyEmail}>
+          <p className="poster-line">
+            <a
+              className="poster-email"
+              href={`mailto:${EMAIL}`}
+              onClick={copyEmail}
+            >
               {EMAIL}
             </a>
-            <span className="copy-note" role="status">
-              {copied ? "Copied" : ""}
+            <span className="poster-note" role="status">
+              {copyNote}
             </span>
           </p>
         </section>
       </main>
 
       <footer className="footer">
-        <button type="button" className="wordmark" onClick={scrollToTop}>
-          Carson Lee
-        </button>
-        <button type="button" className="back-to-top" onClick={scrollToTop}>
-          Back to top
-        </button>
+        <div className="footer-inner">
+          <span className="footer-name">Carson Lee</span>
+          <button type="button" className="back-to-top" onClick={toTop}>
+            Back to top
+          </button>
+        </div>
       </footer>
     </div>
   );
