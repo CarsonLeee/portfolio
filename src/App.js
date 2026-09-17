@@ -477,12 +477,12 @@ function App() {
 
   // Opening scrolls to the case study; closing returns to Work, where the
   // button lives. Skipped on first render so the page doesn't jump on load.
-  const firstRender = useRef(true);
+  // Compares the previous value rather than using a one-shot flag, so
+  // StrictMode's double-invoked effects can't scroll the page on load.
+  const prevCaseOpen = useRef(caseOpen);
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    if (prevCaseOpen.current === caseOpen) return;
+    prevCaseOpen.current = caseOpen;
     // The case study takes the Work section's place, so both directions
     // land on the same anchor.
     document

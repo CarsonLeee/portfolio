@@ -405,9 +405,13 @@ a:hover {
   padding: 44px 0 8px;
 }
 
+/* Equal columns, so the 50%-wide indicator always lines up with a label.
+   Content-sized flex items made it drift, since "Full story" is wider
+   than "TLDR". */
 .segmented {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 4px;
   padding: 4px;
   border-radius: 999px;
@@ -1158,9 +1162,12 @@ a:hover {
     padding: 44px 0 40px;
   }
 
+  /* Centred so it doesn't sit stranded against the left edge; the text
+     below stays left-aligned, which is what keeps it readable. */
   .hero-photo {
     order: -1;
     max-width: 168px;
+    margin-inline: auto;
   }
 
   .about-grid,
