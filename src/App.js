@@ -117,8 +117,8 @@ const EARLIER = [
     company: "YK Air System",
     dates: "2020",
     points: [
-      "Automated internal workflow processes using Python scripts, reducing manual data entry by 30% and improving operational efficiency across the department.",
-      "Improved database performance by optimizing SQL queries and restructuring schemas, enhancing data retrieval speeds by 40%.",
+      "Automated internal workflows with Python, cutting manual data entry by 30%.",
+      "Sped up data retrieval by 40% by optimizing SQL queries and restructuring schemas.",
     ],
   },
   {
@@ -126,8 +126,8 @@ const EARLIER = [
     company: "Perfect Marketing",
     dates: "2021",
     points: [
-      "Created digital marketing promotions using Photoshop and Illustrator, driving business sales by 10%.",
-      "Collaborated cross-functionally with a subsidiary crypto company and assisted in the expansion of software installations for Graphics Processing Units.",
+      "Built marketing promotions in Photoshop and Illustrator that drove a 10% lift in sales.",
+      "Worked with a subsidiary crypto company to expand GPU software installations.",
     ],
   },
 ];
