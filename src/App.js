@@ -818,7 +818,7 @@ function App() {
 
         <section className="poster reveal" aria-labelledby="poster-title">
           <h2 className="poster-title" id="poster-title">
-            Let's build something.
+            Let's chat.
           </h2>
           <p className="poster-line">
             <a className="poster-email" href={MAILTO} onClick={copyEmail}>
