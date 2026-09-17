@@ -34,7 +34,7 @@ const LINKS = [
 
 const STATS = [
   { value: "8+ years", label: "Writing software" },
-  { value: "7", label: "Projects shipped" },
+  { value: "30+", label: "Features shipped" },
   { value: "2×", label: "Hackathon wins" },
 ];
 
