@@ -269,6 +269,11 @@ const CASE = {
       label: "How it ships",
       body: "We use a production AWS environment defined as code — Terraform, ECS Fargate, GitHub Actions — so a deployment is one approved merge for the whole team instead of a manual, error-prone ritual, backed by automated tests and 15 health alarms that surface problems before customers notice. Ten-plus external systems sit behind a common interface, which is how we swapped the e-signature vendor on a live system with zero downtime.",
     },
+    {
+      n: "06",
+      label: "Maintaining and extending it",
+      body: "Launching was the start of the work, not the end of it. Day to day we keep the platform healthy — triaging issues before customers feel them, fixing the rough edges that only show up under real use, and keeping dependencies and infrastructure current. New capability goes in on the same foundations rather than beside them, so the system keeps growing without the reliability sliding backwards.",
+    },
   ],
   outcomes: [
     { v: "500+", l: "Advisors onboarded on the platform" },
