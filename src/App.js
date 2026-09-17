@@ -27,8 +27,8 @@ const LINKS = [
 ];
 
 const STATS = [
-  { value: "500+", label: "Advisors on the platform" },
-  { value: "600+", label: "Policies migrated, zero lost" },
+  { value: "2+ yrs", label: "Shipping production software" },
+  { value: "7", label: "Projects shipped" },
   { value: "2×", label: "Hackathon wins" },
 ];
 
@@ -61,12 +61,13 @@ const WORK = [
     href: "https://onedayinsurance.ca/",
     location: "Aurora, ON",
     press: true,
+    caseStudy: true,
     roles: [
       {
         title: "Lead Software Engineer",
         dates: "Jul 2025 – Present",
         points: [
-          "Led the platform that became the company's system of record — every policy, payment and underwriting decision now runs through it, across 70+ screens and a 111-table database.",
+          "Lead the platform that is now the company's system of record — every policy, payment and underwriting decision runs through it, across 70+ screens and a 111-table database.",
           "Migrated 600+ live policies off the legacy system with no lost or corrupted data.",
           "Closed 39 pre-launch security-audit findings in two days, most tracing back to a handful of root causes.",
           "Built the production AWS environment as code, with an automated release pipeline.",
@@ -220,8 +221,8 @@ const SKILLS = [
 ];
 
 const TLDR = [
-  "Lead Software Engineer at Oneday Insurance, where I led the platform that became the company's system of record — every policy, payment and underwriting decision runs through it, with 500+ advisors onboarded.",
-  "Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
+  "Software engineer who builds production systems end to end — React and TypeScript front ends, Node and PostgreSQL services, and the AWS infrastructure they run on. I've shipped web platforms, a cross-platform mobile app, and seven side projects.",
+  "Right now I'm Lead Software Engineer at Oneday Insurance, where I lead the platform the business runs on. Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
 ];
 
 const FACTS = [
@@ -279,10 +280,9 @@ const CASE = {
     "The decision I'd make again: having the migration tool refuse to run on a mismatch. It turned a reconciliation risk into a problem we caught before it ever reached a customer.",
 };
 
-const VIEWS = ["full", "case", "tldr"];
+const VIEWS = ["full", "tldr"];
 const VIEW_HINTS = {
   full: "Want the short version? Try TLDR.",
-  case: "How the Oneday platform got built.",
   tldr: "The short version, in one screen.",
 };
 
@@ -348,6 +348,7 @@ function App() {
     }
   });
   const [view, setView] = useState("full");
+  const [caseOpen, setCaseOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const progressRef = useRef(null);
 
@@ -403,7 +404,22 @@ function App() {
       if (el.dataset.shown !== "1") io.observe(el);
     });
     return () => io.disconnect();
-  }, [view]);
+  }, [view, caseOpen]);
+
+  const openCase = () => {
+    setCaseOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Returning from the case study lands back on Work, where it was opened.
+  const closeCase = () => {
+    setCaseOpen(false);
+    requestAnimationFrame(() => {
+      document
+        .getElementById("work")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   // mailto: only works when a mail client is registered, so copy the
   // address as well and confirm it.
@@ -458,8 +474,8 @@ function App() {
               Hi, I'm Carson
             </p>
             <h1 className="hero-title">
-              Software engineer building insurance platforms people run their
-              business on.
+              Software engineer building production systems end to end — web,
+              mobile, and the infrastructure under them.
             </h1>
             <p className="hero-subtext">
               Lead Software Engineer at Oneday Insurance. Computer Science,
@@ -495,46 +511,46 @@ function App() {
           ))}
         </div>
 
-        <div className="view-switch">
-          <div className="segmented" role="group" aria-label="Level of detail">
-            <span
-              className="segment-indicator"
-              aria-hidden="true"
-              style={{
-                transform: `translateX(calc(${VIEWS.indexOf(
-                  view
-                )} * (100% + 4px)))`,
-              }}
-            />
-            <button
-              type="button"
-              className="segment"
-              aria-pressed={view === "full"}
-              onClick={() => setView("full")}
-            >
-              Full story
-            </button>
-            <button
-              type="button"
-              className="segment"
-              aria-pressed={view === "case"}
-              onClick={() => setView("case")}
-            >
-              Case study
-            </button>
-            <button
-              type="button"
-              className="segment"
-              aria-pressed={view === "tldr"}
-              onClick={() => setView("tldr")}
-            >
-              TLDR
+        {caseOpen ? (
+          <div className="view-switch">
+            <button type="button" className="back-link" onClick={closeCase}>
+              ← Back to the full story
             </button>
           </div>
-          <p className="view-hint">{VIEW_HINTS[view]}</p>
-        </div>
+        ) : (
+          <div className="view-switch">
+            <div className="segmented" role="group" aria-label="Level of detail">
+              <span
+                className="segment-indicator"
+                aria-hidden="true"
+                style={{
+                  transform: `translateX(calc(${VIEWS.indexOf(
+                    view
+                  )} * (100% + 4px)))`,
+                }}
+              />
+              <button
+                type="button"
+                className="segment"
+                aria-pressed={view === "full"}
+                onClick={() => setView("full")}
+              >
+                Full story
+              </button>
+              <button
+                type="button"
+                className="segment"
+                aria-pressed={view === "tldr"}
+                onClick={() => setView("tldr")}
+              >
+                TLDR
+              </button>
+            </div>
+            <p className="view-hint">{VIEW_HINTS[view]}</p>
+          </div>
+        )}
 
-        {view === "full" ? (
+        {!caseOpen && view === "full" ? (
           <div className="view view-in-left">
             <section className="block">
               <SectionLabel>About</SectionLabel>
@@ -549,18 +565,29 @@ function App() {
               </div>
             </section>
 
-            <section className="block">
+            <section className="block" id="work">
               <SectionLabel>Work</SectionLabel>
               <div className="work-list">
                 {WORK.map((job) => (
                   <div className="card work-card reveal" key={job.company}>
                     <div className="work-head">
-                      <h3 className="work-company">
-                        <ExternalLink href={job.href}>
-                          {job.company}
-                        </ExternalLink>
-                      </h3>
-                      <span className="work-location">{job.location}</span>
+                      <div className="work-head-left">
+                        <h3 className="work-company">
+                          <ExternalLink href={job.href}>
+                            {job.company}
+                          </ExternalLink>
+                        </h3>
+                        <span className="work-location">{job.location}</span>
+                      </div>
+                      {job.caseStudy ? (
+                        <button
+                          type="button"
+                          className="case-link"
+                          onClick={openCase}
+                        >
+                          Case study →
+                        </button>
+                      ) : null}
                     </div>
                     {job.roles.map((role) => (
                       <div className="work-role" key={role.title}>
@@ -586,7 +613,7 @@ function App() {
                   </div>
                 ))}
                 <div className="card earlier reveal">
-                  <p className="earlier-label">Earlier</p>
+                  <p className="earlier-label">Internships</p>
                   {EARLIER.map((item) => (
                     <p className="earlier-row" key={item.company}>
                       <span className="earlier-role">{item.role}</span>
@@ -665,7 +692,7 @@ function App() {
           </div>
         ) : null}
 
-        {view === "case" ? (
+        {caseOpen ? (
           <section className="view view-in-right case" aria-label="Case study">
             <div className="card case-card">
               <p className="case-kicker">{CASE.kicker}</p>
@@ -708,10 +735,13 @@ function App() {
                 {PRESS.label} ↗
               </ExternalLink>
             </div>
+            <button type="button" className="back-link back-link-end" onClick={closeCase}>
+              ← Back to the full story
+            </button>
           </section>
         ) : null}
 
-        {view === "tldr" ? (
+        {!caseOpen && view === "tldr" ? (
           <section className="view view-in-right tldr" aria-label="Summary">
             <div className="card tldr-card">
               <img className="tldr-icon" src={thumbsUpPic} alt="" />
