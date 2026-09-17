@@ -283,7 +283,7 @@ const CASE = {
 const VIEWS = ["full", "tldr"];
 const VIEW_HINTS = {
   full: "Want the short version? Try TLDR.",
-  tldr: "The short version, in one screen.",
+  tldr: "The short version.",
 };
 
 function ExternalLink({ href, className, children, ...rest }) {
