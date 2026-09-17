@@ -66,7 +66,7 @@ const WORK = [
         title: "Lead Software Engineer",
         dates: "Jul 2025 – Present",
         points: [
-          "Led the build of the core insurance platform — 70+ screens, 111-table database — now the system of record for the company's whole book of business.",
+          "Led the platform that became the company's system of record — every policy, payment and underwriting decision now runs through it, across 70+ screens and a 111-table database.",
           "Migrated 600+ live policies off the legacy system with no lost or corrupted data.",
           "Closed 39 pre-launch security-audit findings in two days, most tracing back to a handful of root causes.",
           "Built the production AWS environment as code, with an automated release pipeline.",
@@ -220,7 +220,7 @@ const SKILLS = [
 ];
 
 const TLDR = [
-  "Lead Software Engineer at Oneday Insurance, one of two leads on the core insurance platform that replaced our legacy system — now the system of record for the company's whole book of business, with 500+ advisors onboarded.",
+  "Lead Software Engineer at Oneday Insurance, where I led the platform that became the company's system of record — every policy, payment and underwriting decision runs through it, with 500+ advisors onboarded.",
   "Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
 ];
 
