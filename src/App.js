@@ -29,9 +29,9 @@ const LINKS = [
 ];
 
 const STATS = [
-  { value: "10+", label: "Production integrations" },
-  { value: "39", label: "Security findings resolved in two days" },
-  { value: "2×", label: "Hackathon winner" },
+  { value: "8+ years", label: "Programming experience" },
+  { value: "30+", label: "Features shipped to production" },
+  { value: "2×", label: "Hackathon wins" },
 ];
 
 const ABOUT = [
