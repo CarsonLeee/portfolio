@@ -19,7 +19,7 @@ const EMAIL = "carson0@hotmail.com";
 const SUBJECT = "Hello Carson";
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
 const RESUME =
-  "https://drive.google.com/file/d/1pvX55twrePoRAc8TLrMJCai3KjPoTwmL/view?usp=sharing";
+  "https://drive.google.com/file/d/1NFrxzY6nKh-yeMqBFuVvZabCVr1UURDL/view?usp=sharing";
 
 const LINKS = [
   { label: "Devpost", href: "https://devpost.com/CarsonLeee" },
@@ -29,9 +29,9 @@ const LINKS = [
 ];
 
 const STATS = [
-  { value: "8+ years", label: "Writing software" },
-  { value: "30+", label: "Features shipped" },
-  { value: "2×", label: "Hackathon wins" },
+  { value: "10+", label: "Production integrations" },
+  { value: "39", label: "Security findings resolved in two days" },
+  { value: "2×", label: "Hackathon winner" },
 ];
 
 const ABOUT = [
@@ -43,7 +43,7 @@ const ABOUT = [
   {
     title: "What I do",
     image: ideaPic,
-    body: "Production software end to end, mostly alongside a team — React and TypeScript front ends, Node and PostgreSQL behind them, AWS underneath.",
+    body: "I build production software end to end — React and TypeScript front ends, Node and PostgreSQL services, and the AWS infrastructure underneath.",
   },
   {
     title: "Why I do it",
@@ -67,24 +67,25 @@ const WORK = [
     roles: [
       {
         title: "Lead Software Engineer",
-        dates: "Jul 2025 – Present",
+        dates: "Aug 2025 – Sep 2026",
         points: [
-          "Lead the platform that is now the company's system of record — every policy, payment and underwriting decision runs through it, across 70+ screens and a 111-table database.",
-          "Migrated 600+ live policies off the legacy system with no lost or corrupted data.",
-          "Closed 39 pre-launch security-audit findings in two days, most tracing back to a handful of root causes.",
-          "Used the production AWS setup — Terraform, ECS Fargate, GitHub Actions — where a deployment is one approved merge, backed by automated tests and health alarms.",
-          "Integrated 10+ external systems behind one interface; swapped the e-signature vendor live with zero downtime.",
-          "Led an internal AI support platform with retrieval, guardrails, and confidence-based escalation.",
+          "Directed technical strategy and post-launch delivery for major platform features supporting 500+ advisors and the company's complete active portfolio.",
+          "Led the migration of 600+ active policies and payment schedules, building field-level validation and reconciliation tooling that completed the production cutover without losing or corrupting a record.",
+          "Designed a shared integration layer for 10+ external systems across payments, identity verification, e-signatures, communications, CRM, and industry data — enabling a zero-downtime e-signature provider replacement.",
+          "Automated daily advisor licensing and compliance updates from an industry data provider, with validation, audit trails, and human approval before changes reached production.",
+          "Built an OpenAI-powered in-app support assistant with scoped guardrails and curated documentation, escalating unresolved conversations into assigned tickets with complete context.",
         ],
       },
       {
         title: "Software Engineer",
         dates: "Jul 2024 – Jul 2025",
         points: [
-          "Launched the wholesale life insurance platform for 100+ external agents — covered in the Financial Post.",
-          "Owned payment processing end to end on Zum Rails, including failed-payment handling.",
-          "Designed the delinquency logic driving the customer payment lifecycle.",
-          "Built identity verification on Equifax, with fallbacks and secure links by email or SMS.",
+          "Designed and built an end-to-end commission accounting system that calculated, tracked, approved, and paid commissions for 100+ advisors across multi-level sales hierarchies.",
+          "Built payment processing and delinquency automation covering authorization, reconciliation, failed-payment recovery, and automatic policy lifecycle transitions.",
+          "Shipped major features for the redesigned life insurance platform, enabling 100+ external advisors to onboard and write policies at scale.",
+          "Built the production AWS infrastructure with Terraform and GitHub Actions, reducing deployment to one approved merge backed by automated tests and 15 health alarms.",
+          "Resolved 39 findings from a pre-launch security audit in two days by addressing shared weaknesses in encryption, access control, session security, and sensitive-data logging.",
+
         ],
       },
     ],
@@ -99,31 +100,10 @@ const WORK = [
         title: "Full Stack Developer",
         dates: "Jul – Nov 2023",
         points: [
-          "Led architecture and build of a cross-platform mobile app (React Native, Node, AWS) through to deployment.",
-          "Cut page load times with a layered caching strategy.",
+          "Architected and developed a cross-platform mobile application with React Native, Node.js, and AWS, taking it from backend design through final-stage deployment.",
+          "Integrated real-time third-party data APIs and introduced layered caching, reducing redundant requests and improving application responsiveness.",
         ],
       },
-    ],
-  },
-];
-
-const EARLIER = [
-  {
-    role: "Software Developer Intern",
-    company: "YK Air System",
-    dates: "2020",
-    points: [
-      "Automated internal workflows with Python, cutting manual data entry by 30%.",
-      "Sped up data retrieval by 40% by optimizing SQL queries and restructuring schemas.",
-    ],
-  },
-  {
-    role: "Digital Marketing Intern",
-    company: "Perfect Marketing",
-    dates: "2021",
-    points: [
-      "Built marketing promotions in Photoshop and Illustrator that drove a 10% lift in sales.",
-      "Worked with a subsidiary crypto company to expand GPU software installations.",
     ],
   },
 ];
@@ -226,73 +206,74 @@ const SKILLS = [
   {
     group: "Integrations",
     items:
-      "Zum Rails, Equifax, Twilio, SendGrid, Dropbox Sign, Zoho CRM, OpenAI API",
+      "Zum Rails, Equifax, APEXA CITS, Twilio, SendGrid, BoldSign, Dropbox Sign, Zoho CRM, OpenAI API",
   },
 ];
 
 const TLDR = [
   "Software engineer who builds production systems end to end — React and TypeScript front ends, Node and PostgreSQL services, and the AWS infrastructure they run on. I've shipped web platforms, a cross-platform mobile app, and seven side projects.",
-  "Right now I'm Lead Software Engineer at Oneday Insurance, where I lead the platform the business runs on. Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
+  "Most recently, I progressed from Software Engineer to Lead Software Engineer at Oneday Insurance, where I led delivery of major features on the platform supporting 500+ advisors and the company's full book of business. Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
 ];
 
 const FACTS = [
   "2× hackathon winner",
   "Lifelong athlete — focusing on MMA",
-  "Built nine desktop PCs from the parts up",
+  "Assembled and configured nine custom desktop PCs.",
   "A high school CS teacher told me not to study computer science",
+  "I'm a big Disney and horror fan.",
 ];
 
 const CASE = {
   kicker: "Case study — Oneday Insurance",
-  title: "Replacing the system a whole insurance business runs on.",
+  title: "Replacing the software that ran a growing business.",
   standfirst:
-    "Oneday sells no-exam life insurance to Canadians other insurers turn away — underwritten by Humania Assurance, sold across seven provinces, with a decision inside 24 hours. That promise ran on a legacy platform nobody could safely change. Over two years our engineering team built its replacement. I led the work, and owned the migration that moved the live book of business onto it without losing a policy.",
+    "Oneday needed to replace an aging platform that handled customer applications, payments, and account management. Over two years, I built major parts of the replacement, owned critical features before launch, and led key improvements and data migration off the old platform.",
   facts: [
     { k: "My role", v: "Lead Software Engineer" },
-    { k: "Team", v: "Built with the Oneday engineering team" },
-    { k: "Product", v: "No-exam life insurance, 7 provinces" },
+    { k: "Ownership", v: "Major features, migration, post-launch expansion" },
+    { k: "Product", v: "Customer and business operations platform" },
     { k: "Stack", v: "React, TypeScript, Node, PostgreSQL, AWS" },
   ],
   chapters: [
     {
       n: "01",
       label: "The problem",
-      body: "A 24-hour decision on applicants with real health histories only works if intake, underwriting and servicing are fast and correct. The legacy platform was the only record of who was insured, what they owed, and what had been paid — so every new product idea queued behind it and nothing could change quickly without risking live policies. Replacing it meant rebuilding all three at once; the business had no appetite for a half-migrated state.",
+      body: "Life insurance applications often required multiple forms, medical exams, and weeks of waiting, while agents managed customers through outdated, fragmented tools. Oneday wanted one platform where an agent could complete a single questionnaire, verify an applicant's identity, receive a decision within 24 hours, and manage the account afterward. The engineering challenge was replacing the legacy system without interrupting live business or risking customer and payment data.",
     },
     {
       n: "02",
       label: "What I built",
-      body: "I built a platform of 70+ screens covering application intake, underwriting, and policy servicing, over a 111-table database, with 11 role-based workspaces that decide what each kind of user — advisor, underwriter, admin, wholesale agent — can see and do. I set the architecture and the technical direction, and wrote the intake, payments, and integration layers. It is now the system of record for the company's entire book of business, with 500+ advisors onboarded.",
+      body: "I built major features for customer onboarding, account management, payments, commission accounting, financial reporting, and connections to outside services. After launch, I continued expanding and maintaining the system by automating licensing and compliance updates, building an AI support assistant, improving payment and data-transfer workflows, and resolving production issues as the platform supported daily operations for hundreds of users.",
     },
     {
       n: "03",
       label: "Security before go-live",
-      body: "A full pre-launch audit came back days before launch. I closed all 39 findings in two days — most traced back to a handful of root causes, so fixing one pattern cleared a whole cluster of them: encryption of banking and personal identity data, access-control gaps, session hardening, and stripping personal data out of logs. The platform went live with real customer data fully protected.",
+      body: "An independent security audit found 39 issues days before launch. I traced many of them to shared root causes and fixed all 39 in two days. The changes protected banking and personal data, tightened who could access each feature, strengthened sign-in security, and removed sensitive information from system logs.",
     },
     {
       n: "04",
-      label: "The migration, after launch",
-      body: "We went live first and let the platform stabilize before moving the existing book across. That left 600+ live policies to migrate with their payment schedules and outstanding financial obligations intact, onto a system already serving customers. I built the migration tool to verify every field against confirmed reference records before and after the move, so a mismatch stopped the run instead of quietly corrupting a policy. Not one policy or payment was lost or altered in the transfer.",
+      label: "Moving the existing data",
+      body: "More than 600 active customer records still lived in the old system, along with their payment schedules, financial histories, commissions, and documents. I built the process that moved and checked this information before and after the transfer. If a value did not match, the process stopped so I could investigate it. No customer record or payment was lost or changed.",
     },
     {
       n: "05",
-      label: "How it ships",
-      body: "We use a production AWS environment defined as code — Terraform, ECS Fargate, GitHub Actions — so a deployment is one approved merge for the whole team instead of a manual, error-prone ritual, backed by automated tests and 15 health alarms that surface problems before customers notice. Ten-plus external systems sit behind a common interface, which is how we swapped the e-signature vendor on a live system with zero downtime.",
+      label: "Making releases safer",
+      body: "I automated how software changes reached production using AWS, Terraform, and GitHub Actions. A release became one reviewed code merge, protected by automated tests and 15 health checks. I also connected more than 10 third-party services through a shared interface, which let me replace the digital-signature provider with no downtime.",
     },
     {
       n: "06",
-      label: "Maintaining and extending it",
-      body: "Launching was the start of the work, not the end of it. Day to day we keep the platform healthy — triaging issues before customers feel them, fixing the rough edges that only show up under real use, and keeping dependencies and infrastructure current. New capability goes in on the same foundations rather than beside them, so the system keeps growing without the reliability sliding backwards.",
+      label: "Leading improvements after launch",
+      body: "After my promotion to Lead Software Engineer, I led features that kept external-user licensing and compliance information current while requiring human review before changes took effect. I also built an OpenAI-powered support assistant that answered only from curated documentation and turned unresolved conversations into assigned support tickets with the full conversation attached.",
     },
   ],
   outcomes: [
-    { v: "500+", l: "Advisors onboarded on the platform" },
-    { v: "0", l: "Policies or payments lost in migration" },
-    { v: "39", l: "Security findings closed in two days" },
-    { v: "1 merge", l: "From manual releases to one approved merge" },
+    { v: "500+", l: "External users supported" },
+    { v: "600+", l: "Live customer records moved safely" },
+    { v: "39", l: "Security issues fixed in two days" },
+    { v: "0", l: "Downtime during a critical provider replacement" },
   ],
   closing:
-    "The decision I'd make again: having the migration tool refuse to run on a mismatch. It turned a reconciliation risk into a problem we caught before it ever reached a customer.",
+    "The decision I'd make again: making the transfer stop whenever the old and new data did not match. That turned silent data corruption into a visible issue I could fix before customers were affected.",
 };
 
 const VIEWS = ["full", "tldr"];
@@ -552,8 +533,7 @@ function App() {
               and the infrastructure under them.
             </h1>
             <p className="hero-subtext">
-              Lead Software Engineer at Oneday Insurance. Computer Science,
-              Western University.
+              Software Engineer. Computer Science, Western University.
             </p>
             <div className="hero-actions">
               <a className="btn btn-solid" href={MAILTO} onClick={copyEmail}>
@@ -693,94 +673,86 @@ function App() {
                     ) : null}
                   </div>
                 ))}
-                <div className="card earlier reveal">
-                  <p className="earlier-label">Internships</p>
-                  {EARLIER.map((item) => (
-                    <div className="earlier-item" key={item.company}>
-                      <p className="earlier-row">
-                        <span className="earlier-role">{item.role}</span>
-                        {item.company}
-                        <span className="earlier-dates">{item.dates}</span>
-                      </p>
-                      <ul className="bullets">
-                        {item.points.map((point) => (
-                          <li key={point.slice(0, 40)}>
-                            <span className="bullet-dot">•</span>
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
               </div>
               )}
             </section>
 
-            <section className="block">
-              <SectionLabel>Education</SectionLabel>
-              <div className="card education reveal lift">
-                <div>
-                  <h3 className="card-heading">
-                    The University of Western Ontario
-                  </h3>
-                  <p className="card-body">
-                    Bachelor of Science, Computer Science — London, ON
-                  </p>
-                </div>
-                <span className="pill">Sept 2019 – Apr 2023</span>
-              </div>
-            </section>
-
-            <section className="block">
-              <SectionLabel>Projects</SectionLabel>
-              <div className="projects-grid">
-                {PROJECTS.map((project) => (
-                  <article className="card project reveal lift" key={project.name}>
-                    <ExternalLink className="project-media" href={project.href}>
-                      <img
-                        src={project.image}
-                        alt={project.alt}
-                        loading="lazy"
-                      />
-                    </ExternalLink>
-                    <div className="project-body">
-                      <div className="project-head">
-                        <h3 className="card-title">
-                          <ExternalLink href={project.href}>
-                            {project.name}
-                          </ExternalLink>
-                        </h3>
-                        <span className="project-kind">{project.kind}</span>
-                      </div>
-                      {project.award ? (
-                        <p className="pill pill-block">{project.award}</p>
-                      ) : null}
-                      <p className="card-body">{project.description}</p>
-                      <ul className="tag-list">
-                        {project.tags.map((tag) => (
-                          <li className="tag" key={tag}>
-                            {tag}
-                          </li>
-                        ))}
-                      </ul>
+            {!caseOpen ? (
+              <>
+                <section className="block">
+                  <SectionLabel>Education</SectionLabel>
+                  <div className="card education reveal lift">
+                    <div>
+                      <h3 className="card-heading">
+                        The University of Western Ontario
+                      </h3>
+                      <p className="card-body">
+                        Bachelor of Science, Computer Science — London, ON
+                      </p>
                     </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <section className="block">
-              <SectionLabel>Skills</SectionLabel>
-              <dl className="skills-list">
-                {SKILLS.map((skill) => (
-                  <div className="card skill-row reveal" key={skill.group}>
-                    <dt className="skill-group">{skill.group}</dt>
-                    <dd className="skill-items">{skill.items}</dd>
+                    <span className="pill">Sept 2019 – Apr 2023</span>
                   </div>
-                ))}
-              </dl>
-            </section>
+                </section>
+
+                <section className="block">
+                  <SectionLabel>Projects</SectionLabel>
+                  <div className="projects-grid">
+                    {PROJECTS.map((project) => (
+                      <article
+                        className="card project reveal lift"
+                        key={project.name}
+                      >
+                        <ExternalLink
+                          className="project-media"
+                          href={project.href}
+                        >
+                          <img
+                            src={project.image}
+                            alt={project.alt}
+                            loading="lazy"
+                          />
+                        </ExternalLink>
+                        <div className="project-body">
+                          <div className="project-head">
+                            <h3 className="card-title">
+                              <ExternalLink href={project.href}>
+                                {project.name}
+                              </ExternalLink>
+                            </h3>
+                            <span className="project-kind">
+                              {project.kind}
+                            </span>
+                          </div>
+                          {project.award ? (
+                            <p className="pill pill-block">{project.award}</p>
+                          ) : null}
+                          <p className="card-body">{project.description}</p>
+                          <ul className="tag-list">
+                            {project.tags.map((tag) => (
+                              <li className="tag" key={tag}>
+                                {tag}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="block">
+                  <SectionLabel>Skills</SectionLabel>
+                  <dl className="skills-list">
+                    {SKILLS.map((skill) => (
+                      <div className="card skill-row reveal" key={skill.group}>
+                        <dt className="skill-group">{skill.group}</dt>
+                        <dd className="skill-items">{skill.items}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              </>
+            ) : null}
           </div>
         ) : null}
 
@@ -816,19 +788,21 @@ function App() {
           </section>
         ) : null}
 
-        <section className="poster reveal" aria-labelledby="poster-title">
-          <h2 className="poster-title" id="poster-title">
-            Let's chat.
-          </h2>
-          <p className="poster-line">
-            <a className="poster-email" href={MAILTO} onClick={copyEmail}>
-              {EMAIL}
-            </a>
-            <span className="poster-note" role="status">
-              {copyNote}
-            </span>
-          </p>
-        </section>
+        {!caseOpen ? (
+          <section className="poster reveal" aria-labelledby="poster-title">
+            <h2 className="poster-title" id="poster-title">
+              Let's chat.
+            </h2>
+            <p className="poster-line">
+              <a className="poster-email" href={MAILTO} onClick={copyEmail}>
+                {EMAIL}
+              </a>
+              <span className="poster-note" role="status">
+                {copyNote}
+              </span>
+            </p>
+          </section>
+        ) : null}
       </main>
 
       <footer className="footer">

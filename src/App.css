@@ -639,49 +639,6 @@ a:hover {
   color: var(--a-ink);
 }
 
-.earlier {
-  display: grid;
-  gap: 10px;
-  padding: 20px 26px;
-  border-radius: 22px;
-}
-
-.earlier-label {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.earlier-item + .earlier-item {
-  margin-top: 8px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-
-.earlier-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 15px;
-  color: var(--muted);
-}
-
-.earlier-item .bullets {
-  margin-top: 10px;
-}
-
-.earlier-role {
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.earlier-dates {
-  margin-left: auto;
-}
-
 /* ---------- Education ---------- */
 
 .education {
@@ -806,6 +763,7 @@ a:hover {
 /* Expanded inside the Work section, so it indents slightly and animates in. */
 .case-inline {
   padding-top: 14px;
+  padding-bottom: clamp(56px, 8vw, 96px);
   animation: rise 0.45s var(--ease) both;
 }
 
