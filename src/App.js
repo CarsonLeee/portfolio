@@ -16,7 +16,7 @@ import restaurantfinderGif from "./assets/restaurantfinder.gif";
 import personalwebsiteGif from "./assets/personalwebsite.gif";
 
 const EMAIL = "carson0@hotmail.com";
-const SUBJECT = "Hello Carson";
+const SUBJECT = "Let's Connect!";
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
 const RESUME =
   "https://drive.google.com/file/d/1NFrxzY6nKh-yeMqBFuVvZabCVr1UURDL/view?usp=sharing";
