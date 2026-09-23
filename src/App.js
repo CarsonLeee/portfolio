@@ -13,7 +13,8 @@ import arriveGif from "./assets/arrive.gif";
 import climateheroesGif from "./assets/climateheroes.gif";
 import aichefGif from "./assets/aichef.gif";
 import restaurantfinderGif from "./assets/restaurantfinder.gif";
-import personalwebsiteGif from "./assets/personalwebsite.gif";
+// Hidden for now; uncomment with the matching PROJECTS entry to restore it.
+// import personalwebsiteGif from "./assets/personalwebsite.gif";
 
 const EMAIL = "carson0@hotmail.com";
 const SUBJECT = "Let's Connect!";
@@ -85,7 +86,6 @@ const WORK = [
           "Shipped major features for the redesigned life insurance platform, enabling 100+ external advisors to onboard and write policies at scale.",
           "Built the production AWS infrastructure with Terraform and GitHub Actions, reducing deployment to one approved merge backed by automated tests and 15 health alarms.",
           "Resolved 39 findings from a pre-launch security audit in two days by addressing shared weaknesses in encryption, access control, session security, and sensitive-data logging.",
-
         ],
       },
     ],
@@ -102,6 +102,36 @@ const WORK = [
         points: [
           "Architected and developed a cross-platform mobile application with React Native, Node.js, and AWS, taking it from backend design through final-stage deployment.",
           "Integrated real-time third-party data APIs and introduced layered caching, reducing redundant requests and improving application responsiveness.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "Perfect Marketing",
+    location: "",
+    press: false,
+    roles: [
+      {
+        title: "Digital Marketing Intern",
+        dates: "2021",
+        points: [
+          "Built marketing promotions in Photoshop and Illustrator that drove a 10% lift in sales.",
+          "Worked with a subsidiary crypto company to expand GPU software installations.",
+        ],
+      },
+    ],
+  },
+  {
+    company: "YK Air System",
+    location: "",
+    press: false,
+    roles: [
+      {
+        title: "Software Developer Intern",
+        dates: "2020",
+        points: [
+          "Automated internal workflows with Python, cutting manual data entry by 30%.",
+          "Sped up data retrieval by 40% by optimizing SQL queries and restructuring schemas.",
         ],
       },
     ],
@@ -175,6 +205,7 @@ const PROJECTS = [
       "Finds places to eat nearby with Google Maps and live restaurant data.",
     tags: ["JavaScript", "Maps API"],
   },
+  /* Hidden for now; uncomment with the matching image import to restore it.
   {
     name: "Personal Website v1",
     kind: "Front-end",
@@ -186,6 +217,7 @@ const PROJECTS = [
       "My first site — interactive, responsive, and a real milestone in learning to build things.",
     tags: ["HTML", "CSS", "JS"],
   },
+  */
 ];
 
 const SKILLS = [
@@ -211,7 +243,7 @@ const SKILLS = [
 ];
 
 const TLDR = [
-  "Software engineer who builds production systems end to end — React and TypeScript front ends, Node and PostgreSQL services, and the AWS infrastructure they run on. I've shipped web platforms, a cross-platform mobile app, and seven side projects.",
+  "Software engineer who builds production systems end to end — React and TypeScript front ends, Node and PostgreSQL services, and the AWS infrastructure they run on. I've shipped web platforms, a cross-platform mobile app, and six side projects.",
   "Most recently, I progressed from Software Engineer to Lead Software Engineer at Oneday Insurance, where I led delivery of major features on the platform supporting 500+ advisors and the company's full book of business. Computer Science at Western, two hackathon wins, and a preference for problems where being wrong is expensive: payments, migrations, security.",
 ];
 
@@ -529,11 +561,11 @@ function App() {
               Hi, I'm Carson
             </p>
             <h1 className="hero-title">
-              Software engineer building production systems across web, mobile,
-              and the infrastructure under them.
+              Software engineer building products end to end.
             </h1>
             <p className="hero-subtext">
-              Software Engineer. Computer Science, Western University.
+              From web and mobile interfaces to backend services and cloud
+              infrastructure.
             </p>
             <div className="hero-actions">
               <a className="btn btn-solid" href={MAILTO} onClick={copyEmail}>
@@ -624,54 +656,77 @@ function App() {
               ) : (
               <div className="work-list">
                 {WORK.map((job) => (
-                  <div className="card work-card reveal" key={job.company}>
-                    <div className="work-head">
-                      <h3 className="work-company">
-                        <ExternalLink href={job.href}>
-                          {job.company}
-                        </ExternalLink>
-                      </h3>
-                      <span className="work-location">{job.location}</span>
-                    </div>
-                    {job.roles.map((role) => (
-                      <div className="work-role" key={role.title}>
-                        <div className="work-role-head">
-                          <h4 className="work-role-title">{role.title}</h4>
-                          <span className="pill">{role.dates}</span>
+                  <details className="work-card reveal" key={job.company}>
+                    <summary
+                      className="work-summary"
+                      aria-label={`View details for ${job.company}`}
+                    >
+                      <div className="work-head">
+                        <h3 className="work-company">{job.company}</h3>
+                        {job.location ? (
+                          <span className="work-location">{job.location}</span>
+                        ) : null}
+                        <span className="work-toggle" aria-hidden="true" />
+                      </div>
+                      <div className="work-summary-roles">
+                        {job.roles.map((role) => (
+                          <div className="work-summary-role" key={role.title}>
+                            <h4 className="work-role-title">{role.title}</h4>
+                            <span className="work-date">{role.dates}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </summary>
+
+                    <div className="work-details">
+                      {job.roles.map((role) => (
+                        <div className="work-role" key={role.title}>
+                          <div className="work-role-head">
+                            <h4 className="work-role-title">{role.title}</h4>
+                            <span className="work-date">{role.dates}</span>
+                          </div>
+                          <ul className="bullets">
+                            {role.points.map((point) => (
+                              <li key={point.slice(0, 40)}>
+                                <span className="bullet-dot">•</span>
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <ul className="bullets">
-                          {role.points.map((point) => (
-                            <li key={point.slice(0, 40)}>
-                              <span className="bullet-dot">•</span>
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                    {job.press || job.caseStudy ? (
-                      <div className="work-links">
-                        {job.caseStudy ? (
-                          <button
-                            type="button"
-                            className="case-link"
-                            aria-expanded={caseOpen}
-                            aria-controls="case-study"
-                            onClick={() => setCaseOpen((open) => !open)}
-                          >
-                            {caseOpen
-                              ? "Hide case study"
-                              : "Read the case study →"}
-                          </button>
-                        ) : null}
-                        {job.press ? (
-                          <ExternalLink className="press-link" href={PRESS.href}>
-                            {PRESS.label} ↗
-                          </ExternalLink>
-                        ) : null}
-                      </div>
-                    ) : null}
-                  </div>
+                      ))}
+                      {job.caseStudy || job.press || job.href ? (
+                        <div className="work-links">
+                          {job.caseStudy ? (
+                            <button
+                              type="button"
+                              className="case-link"
+                              aria-expanded={caseOpen}
+                              aria-controls="case-study"
+                              onClick={() => setCaseOpen((open) => !open)}
+                            >
+                              {caseOpen
+                                ? "Hide case study"
+                                : "Read the case study →"}
+                            </button>
+                          ) : null}
+                          {job.press ? (
+                            <ExternalLink className="press-link" href={PRESS.href}>
+                              {PRESS.label} ↗
+                            </ExternalLink>
+                          ) : null}
+                          {job.href ? (
+                            <ExternalLink
+                              className="work-company-link"
+                              href={job.href}
+                            >
+                              Company website ↗
+                            </ExternalLink>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
+                  </details>
                 ))}
               </div>
               )}

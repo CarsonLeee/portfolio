@@ -512,20 +512,113 @@ a:hover {
 /* ---------- Work ---------- */
 
 .work-list {
+  position: relative;
   display: grid;
-  gap: 14px;
+  gap: 0;
   margin-top: 18px;
+  padding-left: 30px;
+}
+
+.work-list::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 5px;
+  width: 1px;
+  background: var(--line);
 }
 
 .work-card {
-  padding: 26px;
-  border-radius: 22px;
+  position: relative;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.work-card::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 27px;
+  left: -29px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--a);
+  border-radius: 50%;
+  background: var(--paper);
+  transition: background 0.2s ease;
+}
+
+.work-card[open]::before {
+  background: var(--a);
+}
+
+.work-summary {
+  position: relative;
+  display: block;
+  padding: 22px 2px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.work-summary::-webkit-details-marker {
+  display: none;
+}
+
+.work-summary:focus-visible {
+  outline: 2px solid var(--a);
+  outline-offset: 5px;
+}
+
+.work-summary:hover .work-company {
+  color: var(--a-ink);
+}
+
+.work-summary:hover .work-toggle {
+  border-color: var(--a);
+}
+
+.work-summary-roles {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.work-summary-role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.work-card[open] .work-summary-roles {
+  display: none;
+}
+
+.work-toggle {
+  width: 9px;
+  height: 9px;
+  margin-left: auto;
+  margin-right: 7px;
+  flex: none;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.work-card[open] .work-toggle {
+  transform: rotate(-135deg);
+}
+
+.work-details {
+  padding: 0 2px 28px;
 }
 
 .work-head {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 
@@ -571,14 +664,7 @@ a:hover {
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -0.025em;
-}
-
-.work-company a {
-  color: var(--ink);
-}
-
-.work-company a:hover {
-  color: var(--a-ink);
+  transition: color 0.2s ease;
 }
 
 .work-location {
@@ -586,8 +672,23 @@ a:hover {
   color: var(--muted);
 }
 
+.work-company-link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--a-ink);
+}
+
+.work-company-link:hover {
+  color: var(--ink);
+}
+
 .work-role {
   margin-top: 18px;
+}
+
+.work-details .work-role:first-child {
+  margin-top: 0;
 }
 
 .work-role-head {
@@ -601,6 +702,14 @@ a:hover {
 .work-role-title {
   font-size: 15px;
   font-weight: 600;
+}
+
+.work-date {
+  flex: none;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .bullets {
@@ -1179,8 +1288,20 @@ a:hover {
     display: none;
   }
 
-  .work-card {
-    padding: 20px;
+  .work-summary {
+    padding: 20px 0;
+  }
+
+  .work-list {
+    padding-left: 24px;
+  }
+
+  .work-card::before {
+    left: -23px;
+  }
+
+  .work-details {
+    padding: 0 0 22px;
   }
 
   .tldr-card {

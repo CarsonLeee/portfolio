@@ -6,20 +6,32 @@ test("renders the updated portfolio experience", () => {
 
   expect(
     screen.getByRole("heading", {
-      name: /software engineer building production systems/i,
+      name: /software engineer building products end to end/i,
     })
   ).toBeInTheDocument();
-  expect(screen.getByText("Jul 2024 – Jul 2025")).toBeInTheDocument();
-  expect(screen.getByText("Aug 2025 – Sep 2026")).toBeInTheDocument();
+  expect(screen.getAllByText("Jul 2024 – Jul 2025").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("Aug 2025 – Sep 2026").length).toBeGreaterThan(0);
   expect(
-    screen.getByRole("heading", { name: "Lead Software Engineer" })
-  ).toBeInTheDocument();
+    screen.getAllByRole("heading", { name: "Lead Software Engineer" }).length
+  ).toBeGreaterThan(0);
+  expect(
+    screen.getAllByRole("heading", { name: "Digital Marketing Intern" }).length
+  ).toBeGreaterThan(0);
+  expect(
+    screen.getAllByRole("heading", { name: "Software Developer Intern" }).length
+  ).toBeGreaterThan(0);
+
+  const oneday = screen.getByLabelText("View details for Oneday Insurance");
+  expect(oneday.closest("details")).not.toHaveAttribute("open");
+  fireEvent.click(oneday);
+  expect(oneday.closest("details")).toHaveAttribute("open");
 });
 
 test("hides the sections below work while the case study is open", () => {
   Element.prototype.scrollIntoView = jest.fn();
   render(<App />);
 
+  fireEvent.click(screen.getByLabelText("View details for Oneday Insurance"));
   fireEvent.click(
     screen.getByRole("button", { name: /read the case study/i })
   );
